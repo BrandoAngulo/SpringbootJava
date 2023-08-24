@@ -1,6 +1,4 @@
 window.addEventListener('DOMContentLoaded', event => {
-    // Simple-DataTables
-    // https://github.com/fiduswriter/Simple-DataTables/wiki
     const usuarios = document.getElementById('usuarios');
     cargarUsuarios();
     if (usuarios) {
@@ -9,23 +7,22 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 async function cargarUsuarios() {
-
-    const request = await fetch('usuarios/', {
+    const request = await fetch('usuarios', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
     });
-    const personas = await request.json();
+    const usuarios = await request.json();
 
-    console.log(personas.nombre);
-    //let listaPersonas = '';
-    //for (let persona of personas) {
-    let usuarioTabla = '<td>'+personas.id+'<td><td>'+personas.nombre+'<td><td>'+personas.celular+'<td>'
+    let listadoHtml = '';
+    for (let usuario of usuarios) {
+        let usuarioHtml = '<tr><td>' + usuario.id + '</td><td>' + usuario.nombre + '</td><td>' + usuario.apellido + '</td><td>' + usuario.celular + '</td><td>' + usuario.correo + '</td><td><button>Eliminar</button></td></tr>';
+        listadoHtml += usuarioHtml;
+    }
+    console.log(listadoHtml);
+    document.querySelector('#usuarios tbody').outerHTML = listadoHtml;
 
-      //  listaPersonas +=usuarioTabla;
-    //}
-    document.querySelector('#usuarios tbody').outerHTML = usuarioTabla;
 
 }

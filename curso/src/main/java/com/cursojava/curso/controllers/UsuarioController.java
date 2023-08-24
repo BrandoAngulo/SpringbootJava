@@ -20,7 +20,7 @@ public class UsuarioController {
         usuario.setCelular("3122555466");
         usuario.setCorreo("purbe@prueba.com");
         return  usuario;
-    }@RequestMapping(value = "usuarios/")
+    }@RequestMapping(value = "usuarios")
     public List<Usuario> getUsuarios(){
         List <Usuario>usuarios = new ArrayList<>();
         Usuario usuario = new Usuario();
