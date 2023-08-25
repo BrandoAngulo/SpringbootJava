@@ -7,7 +7,7 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 async function cargarUsuarios() {
-    const request = await fetch('usuarios', {
+    const request = await fetch('api/usuarios', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -18,11 +18,27 @@ async function cargarUsuarios() {
 
     let listadoHtml = '';
     for (let usuario of usuarios) {
-        let usuarioHtml = '<tr><td>' + usuario.id + '</td><td>' + usuario.nombre + '</td><td>' + usuario.apellido + '</td><td>' + usuario.celular + '</td><td>' + usuario.correo + '</td><td><button>Eliminar</button></td></tr>';
+        let btnEliminar = '<a href="#" onclick="eliminarUsuario(' + usuario.id + ')" style="text-decoration: none" class="btn btn-danger">Eliminar</a>';
+        let usuarioHtml = '<tr><td>' + usuario.id + '</td><td>' + usuario.nombre + '</td><td>' + usuario.apellido + '</td><td>' + usuario.celular + '</td><td>' + usuario.correo + '</td><td>' + btnEliminar + '</td></tr>';
         listadoHtml += usuarioHtml;
     }
-    console.log(listadoHtml);
+
     document.querySelector('#usuarios tbody').outerHTML = listadoHtml;
+}
 
+async function eliminarUsuario(id) {
 
+    if (!confirm('Esta seguro')) {
+        return;
+    }
+    const request = await fetch('api/eliminar/' + id, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+
+    console.log(`User eliminado: ${id}`);
+    location.reload();
 }
