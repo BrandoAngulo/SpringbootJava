@@ -7,7 +7,9 @@ import java.util.List;
 public interface UsuarioDao {
 
     List<Usuario> getUsuarios();
-    Usuario getUsuario(int id);
+    void registrarUsuario(Usuario usuario);
 
     void eliminar(int id);
+
+    boolean confirmarEmailPass(Usuario usuario);
 }

@@ -24,15 +24,25 @@ public class UsuarioDaoImpl implements UsuarioDao {
     }
 
     @Override
-    public Usuario getUsuario(int id){
-        Usuario usuario = entityManager.find(Usuario.class, id);
-        return usuario;
+    public void registrarUsuario(Usuario usuario) {
+        entityManager.merge(usuario);
     }
 
     @Override
     public void eliminar(int id) {
         Usuario usuario = entityManager.find(Usuario.class, id);
         entityManager.remove(usuario);
+    }
+
+    @Override
+    public boolean confirmarEmailPass(Usuario usuario) {
+        String query = "FROM Usuario WHERE correo = :correo AND pass = :pass";
+        List<Usuario> resultado = entityManager.createQuery(query)
+                .setParameter("correo", usuario.getCorreo())
+                .setParameter("pass", usuario.getPass())
+                .getResultList();
+        return !resultado.isEmpty();
+
     }
 
 }
