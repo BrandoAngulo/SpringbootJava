@@ -1,5 +1,6 @@
 window.addEventListener('DOMContentLoaded', event => {
     const usuarios = document.getElementById('usuarios');
+
     cargarUsuarios();
     if (usuarios) {
         new simpleDatatables.DataTable(usuarios);
@@ -9,10 +10,7 @@ window.addEventListener('DOMContentLoaded', event => {
 async function cargarUsuarios() {
     const request = await fetch('api/usuarios', {
         method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        headers: getHeaders()
     });
     const usuarios = await request.json();
 
@@ -26,6 +24,14 @@ async function cargarUsuarios() {
     document.querySelector('#usuarios tbody').outerHTML = listadoHtml;
 }
 
+function getHeaders() {
+    return {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.token
+    };
+}
+
 async function eliminarUsuario(id) {
 
     if (!confirm('Esta seguro')) {
@@ -33,10 +39,7 @@ async function eliminarUsuario(id) {
     }
     const request = await fetch('api/eliminar/' + id, {
         method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
+        headers: getHeaders()
     });
 
     console.log(`User eliminado: ${id}`);

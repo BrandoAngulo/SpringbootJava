@@ -11,5 +11,5 @@ public interface UsuarioDao {
 
     void eliminar(int id);
 
-    boolean confirmarEmailPass(Usuario usuario);
+    Usuario obtenerUsuarioCredenciales(Usuario usuario);
 }
