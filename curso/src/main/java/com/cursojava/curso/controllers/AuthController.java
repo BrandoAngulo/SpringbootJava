@@ -18,12 +18,13 @@ public class AuthController {
 
     @RequestMapping(value = "api/login", method = RequestMethod.POST)
     public String login(@RequestBody Usuario usuario) {
-        Usuario usuarioLogeado = usuarioDao.obtenerUsuarioCredenciales(usuario);
 
-        if (usuarioLogeado != null) {
-            String token = jwtUtil.create(String.valueOf(usuarioLogeado.getId()), usuarioLogeado.getCorreo());
-            return token;
+        Usuario usuarioLogueado = usuarioDao.obtenerUsuarioPorCredenciales(usuario);
+        if (usuarioLogueado != null) {
+            String tokenJwt = jwtUtil.create(String.valueOf(usuarioLogueado.getId()), usuarioLogueado.getCorreo());
+            return tokenJwt;
         }
         return "FAIL";
     }
+
 }
