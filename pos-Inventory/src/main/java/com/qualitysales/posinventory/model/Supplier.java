@@ -12,15 +12,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "categoria")
 @Builder
-public class Category {
+@Entity
+@Table(name = "proveedor")
+public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
-    @Column(name = "descripcion")
-    private String description;
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Product> productList = new ArrayList<>();
+    @Column(name = "nombre")
+    private String name;
+    @Column(name = "telefono")
+    private String phone;
+    @Column
+    private String nit;
+    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
+    List<Product> productList = new ArrayList<>();
+
 }
