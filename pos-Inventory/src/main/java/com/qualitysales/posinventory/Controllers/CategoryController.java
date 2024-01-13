@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -19,7 +20,7 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/category/find/{id}")
     public ResponseEntity<?> findById(@PathVariable int id){
         Optional<Category> categoryOptional = categoryService.findById(id);
         if(categoryOptional.isPresent()){
@@ -34,6 +35,21 @@ public class CategoryController {
         }
 
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/category/findAll")
+    public ResponseEntity<?> findAll(){
+        List<CategoryDTO> categoryList = categoryService.findByAll()
+                .stream()
+                .map(category -> CategoryDTO.builder()
+                        .id(category.getId())
+                        .name(category.getDescription())
+                        .productList(category.getProductList())
+                        .build())
+                .toList();
+        return ResponseEntity.ok(categoryList);
+
+
     }
 
 }
