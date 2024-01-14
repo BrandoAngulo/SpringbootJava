@@ -5,13 +5,13 @@ import com.qualitysales.posinventory.model.Category;
 import com.qualitysales.posinventory.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 
 @RestController
 @RequestMapping("/api/posinventory")
@@ -21,9 +21,9 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping("/category/find/{id}")
-    public ResponseEntity<?> findById(@PathVariable int id){
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if(categoryOptional.isPresent()){
+        if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
             CategoryDTO categoryDTO = CategoryDTO.builder()
                     .id(category.getId())
@@ -38,7 +38,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/findAll")
-    public ResponseEntity<?> findAll(){
+    public ResponseEntity<?> findAll() {
         List<CategoryDTO> categoryList = categoryService.findByAll()
                 .stream()
                 .map(category -> CategoryDTO.builder()
@@ -50,6 +50,43 @@ public class CategoryController {
         return ResponseEntity.ok(categoryList);
 
 
+    }
+
+    @PostMapping("/category/save")
+    public ResponseEntity<?> save(@RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
+        if (categoryDTO.getName().isBlank()) {
+            ResponseEntity.badRequest().build();
+
+        }
+        categoryService.save(Category.builder()
+                .description(categoryDTO.getName())
+                .build());
+
+        ResponseEntity.created(new URI("/api/posinventory/category/save")).build();
+        return ResponseEntity.ok("Categoria creada con exito");
+    }
+
+    @PutMapping("/category/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO ){
+        Optional<Category> categoryOptional = categoryService.findById(id);
+        if (categoryOptional.isPresent()){
+            Category category = categoryOptional.get();
+            category.setDescription(categoryDTO.getName());
+            categoryService.save(category);
+            return ResponseEntity.ok("Categoria actualizada correctamente");
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/category/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id){
+        Optional<Category> categoryOptional = categoryService.findById(id);
+        if(categoryOptional != null && categoryOptional.isPresent()){
+            categoryService.deleteById(id);
+            return ResponseEntity.ok("Categoria eliminada con exito");
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
 }
