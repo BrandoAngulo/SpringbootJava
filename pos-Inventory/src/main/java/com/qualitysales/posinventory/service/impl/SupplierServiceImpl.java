@@ -2,14 +2,14 @@ package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.model.Supplier;
 import com.qualitysales.posinventory.persistence.ISupplierDAO;
-import com.qualitysales.posinventory.service.ISuppliearService;
+import com.qualitysales.posinventory.service.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 @Service
-public class SupplierServiceImpl implements ISuppliearService {
+public class SupplierServiceImpl implements ISupplierService {
 
     @Autowired
     private ISupplierDAO supplierDAO;

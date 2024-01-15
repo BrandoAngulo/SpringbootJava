@@ -11,7 +11,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 @RestController
 @RequestMapping("/api/posinventory")
@@ -27,10 +26,9 @@ public class CategoryController {
             Category category = categoryOptional.get();
             CategoryDTO categoryDTO = CategoryDTO.builder()
                     .id(category.getId())
-                    .name(category.getDescription())
+                    .descripcion(category.getDescription())
                     .productList(category.getProductList())
                     .build();
-            System.out.println(">>>>>>>>>>>>id: " + categoryDTO.getId());
             return ResponseEntity.ok(categoryDTO);
         }
 
@@ -43,7 +41,7 @@ public class CategoryController {
                 .stream()
                 .map(category -> CategoryDTO.builder()
                         .id(category.getId())
-                        .name(category.getDescription())
+                        .descripcion(category.getDescription())
                         .productList(category.getProductList())
                         .build())
                 .toList();
@@ -54,12 +52,12 @@ public class CategoryController {
 
     @PostMapping("/category/save")
     public ResponseEntity<?> save(@RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
-        if (categoryDTO.getName().isBlank()) {
+        if (categoryDTO.getDescripcion().isBlank()) {
             ResponseEntity.badRequest().build();
 
         }
         categoryService.save(Category.builder()
-                .description(categoryDTO.getName())
+                .description(categoryDTO.getDescripcion())
                 .build());
 
         ResponseEntity.created(new URI("/api/posinventory/category/save")).build();
@@ -71,7 +69,7 @@ public class CategoryController {
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (categoryOptional.isPresent()){
             Category category = categoryOptional.get();
-            category.setDescription(categoryDTO.getName());
+            category.setDescription(categoryDTO.getDescripcion());
             categoryService.save(category);
             return ResponseEntity.ok("Categoria actualizada correctamente");
         }

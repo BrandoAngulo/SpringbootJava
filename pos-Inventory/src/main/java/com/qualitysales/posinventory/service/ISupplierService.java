@@ -5,7 +5,7 @@ import com.qualitysales.posinventory.model.Supplier;
 import java.util.List;
 import java.util.Optional;
 
-public interface ISuppliearService {
+public interface ISupplierService {
 
     List<Supplier> findByAll();
     Optional<Supplier> findById(Integer id);
