@@ -1,12 +1,12 @@
 package com.qualitysales.posinventory.Controllers.DTO;
 
 import com.qualitysales.posinventory.model.Product;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
