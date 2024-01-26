@@ -65,9 +65,9 @@ public class CategoryController {
     }
 
     @PutMapping("/category/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO ){
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO) {
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if (categoryOptional.isPresent()){
+        if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
             category.setDescription(categoryDTO.getDescripcion());
             categoryService.save(category);
@@ -77,9 +77,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/category/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if(categoryOptional != null && categoryOptional.isPresent()){
+        if (categoryOptional != null && categoryOptional.isPresent()) {
             categoryService.deleteById(id);
             return ResponseEntity.ok("Categoria eliminada con exito");
         }

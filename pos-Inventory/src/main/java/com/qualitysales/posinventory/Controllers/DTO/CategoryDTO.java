@@ -1,6 +1,8 @@
 package com.qualitysales.posinventory.Controllers.DTO;
 
 import com.qualitysales.posinventory.model.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +15,10 @@ import java.util.List;
 @Data
 @Builder
 public class CategoryDTO {
-    private int id;
+    @NotBlank
+    @NotNull
+    private Integer id;
+    @NotBlank
     private String descripcion;
     private List<Product> productList = new ArrayList<>();
 }

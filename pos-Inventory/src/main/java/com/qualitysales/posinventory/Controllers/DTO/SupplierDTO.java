@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @Builder
 public class SupplierDTO {
-    private int id;
+    private Integer id;
     @NotBlank
     private String name;
     @NotBlank

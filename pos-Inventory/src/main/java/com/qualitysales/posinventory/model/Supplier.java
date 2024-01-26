@@ -19,7 +19,7 @@ import java.util.List;
 public class Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private int id;
+    private Integer id;
     @Column(name = "nombre")
     private String name;
     @Column(name = "telefono")
@@ -28,6 +28,6 @@ public class Supplier {
     private String nit;
     @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnore
-    List<Product> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
 }

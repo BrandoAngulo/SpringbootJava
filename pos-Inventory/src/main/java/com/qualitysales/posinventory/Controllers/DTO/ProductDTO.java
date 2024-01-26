@@ -2,6 +2,8 @@ package com.qualitysales.posinventory.Controllers.DTO;
 
 import com.qualitysales.posinventory.model.Category;
 import com.qualitysales.posinventory.model.Supplier;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,12 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-    private int id;
+    private Integer id;
+    @NotBlank(message = "the name field must not be empty")
+    @NotNull(message = "the name field must not be null")
     private String name;
     private String description;
-    List<Supplier> supplierList = new ArrayList<>();
-    List<Category> categoryList= new ArrayList();
+    private Supplier supplier;
+    private Category category;
     private BigDecimal price;
-    private int stock;
-
+    @NotNull
+    private Integer stock;
 }

@@ -19,7 +19,7 @@ import java.util.List;
 public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private int id;
+    private Integer id;
     @Column(name = "descripcion")
     private String description;
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
