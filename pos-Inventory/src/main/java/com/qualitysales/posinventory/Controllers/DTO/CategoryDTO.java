@@ -15,10 +15,8 @@ import java.util.List;
 @Data
 @Builder
 public class CategoryDTO {
-    @NotBlank
-    @NotNull
     private Integer id;
-    @NotBlank
+    @NotBlank(message = "la descripcion de categoria no debe ser vacia")
     private String descripcion;
-    private List<Product> productList = new ArrayList<>();
+    //private List<Product> productList = new ArrayList<>();
 }

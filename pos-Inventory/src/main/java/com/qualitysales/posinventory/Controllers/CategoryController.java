@@ -27,7 +27,7 @@ public class CategoryController {
             CategoryDTO categoryDTO = CategoryDTO.builder()
                     .id(category.getId())
                     .descripcion(category.getDescription())
-                    .productList(category.getProductList())
+                    //.productList(category.getProductList())
                     .build();
             return ResponseEntity.ok(categoryDTO);
         }
@@ -42,7 +42,7 @@ public class CategoryController {
                 .map(category -> CategoryDTO.builder()
                         .id(category.getId())
                         .descripcion(category.getDescription())
-                        .productList(category.getProductList())
+                        //.productList(category.getProductList())
                         .build())
                 .toList();
         return ResponseEntity.ok(categoryList);

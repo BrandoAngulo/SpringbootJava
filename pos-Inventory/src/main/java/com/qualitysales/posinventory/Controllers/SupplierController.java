@@ -30,7 +30,7 @@ public class SupplierController {
                     .name(supplier.getName())
                     .phone(supplier.getPhone())
                     .nit(supplier.getNit())
-                    .productList(supplier.getProductList())
+                    //.productList(supplier.getProductList())
                     .build();
             return ResponseEntity.ok(supplierDTO);
         }
@@ -46,7 +46,7 @@ public class SupplierController {
                         .name(supplier.getName())
                         .phone(supplier.getPhone())
                         .nit(supplier.getNit())
-                        .productList(supplier.getProductList())
+                        //.productList(supplier.getProductList())
                         .build())
                 .toList();
         return ResponseEntity.ok(supplierList);
