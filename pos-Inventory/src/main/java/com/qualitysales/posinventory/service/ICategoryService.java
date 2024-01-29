@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ICategoryService {
     List<Category> findByAll();
-    Optional<Category> findById(Integer id);
+    Optional<Category> findById(Integer id) throws Exception;
     void save(Category category);
     void deleteById(Integer id);
 
