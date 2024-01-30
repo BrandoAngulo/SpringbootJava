@@ -25,8 +25,9 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
+
     @GetMapping("/find/{id}")
-    public Optional<Category> findById(@PathVariable Integer id) throws Exception {
+    public CategoryDTO findById(@PathVariable Integer id) throws Exception {
         return categoryService.findById(id);
     }
 
@@ -59,27 +60,27 @@ public class CategoryController {
         return ResponseEntity.ok("Categoria creada con exito");
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO) throws Exception {
-        Optional<Category> categoryOptional = categoryService.findById(id);
-        if (categoryOptional.isPresent()) {
-            Category category = categoryOptional.get();
-            category.setDescription(categoryDTO.getDescripcion());
-            categoryService.save(category);
-            return ResponseEntity.ok("Categoria actualizada correctamente");
-        }
-        return ResponseEntity.notFound().build();
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO) throws Exception {
+//        //Optional<Category> categoryOptional = categoryService.findById(id);
+//        if (categoryOptional.isPresent()) {
+//            Category category = categoryOptional.get();
+//            category.setDescription(categoryDTO.getDescripcion());
+//            categoryService.save(category);
+//            return ResponseEntity.ok("Categoria actualizada correctamente");
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
-        Optional<Category> categoryOptional = categoryService.findById(id);
-        if (categoryOptional != null && categoryOptional.isPresent()) {
-            categoryService.deleteById(id);
-            return ResponseEntity.ok("Categoria eliminada con exito");
-        }
-
-        return ResponseEntity.badRequest().build();
-    }
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
+//        Optional<Category> categoryOptional = categoryService.findById(id);
+//        if (categoryOptional != null && categoryOptional.isPresent()) {
+//            categoryService.deleteById(id);
+//            return ResponseEntity.ok("Categoria eliminada con exito");
+//        }
+//
+//        return ResponseEntity.badRequest().build();
+//    }
 
 }
