@@ -43,11 +43,10 @@ public class CategoryServiceImpl implements ICategoryService {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();
-            CategoryDTO categoryDTO = CategoryDTO.builder()
+            return CategoryDTO.builder()
                     .id(category.getId())
                     .descripcion(category.getDescription())
                     .build();
-            return categoryDTO;
 
         }
         throw new Exception("La categoria no existe");
