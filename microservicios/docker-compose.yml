@@ -1,13 +1,13 @@
 #Instruccion para crear el contenedor
 #Despues de configurar las instrucciones del contenedor
 #escribir el comando en la terminal y dentro del proyecto donde este el archivo docker-compose.yml (docker compose up) para levantar el contenedor
-#version: '3.1'
+#version: '3.2'
 #services:
 #  db:
 #    container_name: mysql_db
 #    image: mysql:8.2.0
 #    volumes:
-#      - my-db:/var/lib/mysql
+#      - my-db-mysql:/var/lib/mysql
 #    restart: always
 #    ports:
 #      - '3306:3306'
@@ -18,7 +18,7 @@
 #      MYSQL_PASSWORD: 'admin'
 #      MYSQL_ROOT_PASSWORD: 'admin'
 #volumes:
-#  my-db:
+#  my-db-mysql:
 
 #version: '3.1'
 #services:
@@ -40,21 +40,21 @@
 
 
 
-version: '3.1'
+version: '3.2'
 services:
   db:
-    container_name: localhost
+    container_name: credito-servicio
     image: postgres:9.6-alpine3.15
     volumes:
       - /var/lib/postgresql/data
     restart: always
     ports:
-      - '5433:5432'
+      - '5434:5432'
     expose:
       - '5432'
     environment:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres'
 volumes:
-  my-db:
+  my-db-credito:
 

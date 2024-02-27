@@ -26,5 +26,6 @@ public class Credito {
     private BigDecimal valor;
     @Column(name = "diascredito")
     private Integer diasCredito;
+    @Column(length = 1)
     private String estado;
 }

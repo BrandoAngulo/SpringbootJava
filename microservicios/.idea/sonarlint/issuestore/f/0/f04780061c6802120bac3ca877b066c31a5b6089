@@ -1,6 +1,0 @@
-
-g	java:S112)"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ8εÿΨ¶έ1
-‚
-java:S1488"eImmediately return this expression instead of assigning it to the temporary variable "listaCreditos".(„ΐ…8εÿΨ¶έ1
-_
-java:S1612#"BReplace this lambda with method reference 'RuntimeException::new'.(–¬ν8λÿΨ¶έ1

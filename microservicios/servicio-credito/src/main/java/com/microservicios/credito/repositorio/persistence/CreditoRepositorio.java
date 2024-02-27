@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface CreditoRepositorio extends JpaRepository<Credito, Integer> {
-    List<Credito> findByCodigoCliente(Integer codigoCliente);
+    List<Credito> findAllByCodigoCliente(Integer codigoCliente);
 }

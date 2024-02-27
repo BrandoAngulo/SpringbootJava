@@ -1,0 +1,1 @@
+insert into cliente (nombre, apellido, celular, tipodocumento) values ('armando', 'casas', '3102666598', 'CC', '115522333'),('agelio', 'casas', '3102666598', 'CC', '115522333'),('romario', 'casas', '3102666598', 'CC', '115522333'),('diana', 'casas', '3102666598', 'CC', '115522333'),('maria', 'casas', '3102666598', 'CC', '115522333');

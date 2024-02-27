@@ -28,7 +28,7 @@ public class CreditoServicioImpl implements CreditoService {
     @Override
     public List<Credito> listaCreditosCliente(Integer codigoCliente) {
 
-        return creditoRepositorio.findByCodigoCliente(codigoCliente);
+        return creditoRepositorio.findAllByCodigoCliente(codigoCliente);
     }
 
     @Override

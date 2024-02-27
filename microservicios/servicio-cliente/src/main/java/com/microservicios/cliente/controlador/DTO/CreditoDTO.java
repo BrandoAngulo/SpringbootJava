@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteDTO {
-    private String nombre;
-    private String apellido;
-    private String celular;
-    private String tipoDocumento;
-    private String documento;
+public class CreditoDTO {
+    private Integer codigoCliente;
+    private String fechaCredito;
+    private BigDecimal valor;
+    private Integer diasCredito;
+    private String estado;
 }
