@@ -1,2 +1,4 @@
 
 i	java:S100-"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Öó·n8¸óî·İ1
+~
+java:S1128"bRemove this unused import 'com.microservicios.credito.repositorio.persistence.CreditoRepositorio'.(Î«ü;8“Ò‘ß1

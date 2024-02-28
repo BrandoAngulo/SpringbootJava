@@ -77,10 +77,10 @@ public class ClienteServicioImpl implements ClienteServicio {
     @Override
     public ClienteByCreditoResponse listaCreditosCliente(Integer codigoCliente) {
         //consultar el cliente
-        Cliente cliente = clienteRepositorio.findById(codigoCliente).orElseThrow();
+        Cliente cliente = clienteRepositorio.findById(codigoCliente).orElseThrow(
+                () -> new RuntimeException("No se encontro ningun cliente con ese codigo"));
         //obtener los creditos desde la interfaz feignClient que esta en el paquete client
-        List<CreditoDTO> listaCredito = creditoCliente.listarCreditoCliente(codigoCliente);
-
+        List<CreditoDTO> listaCredito = creditoCliente.listaCreditosCliente(codigoCliente);
         return ClienteByCreditoResponse.builder()
                 .nombreCliente(cliente.getNombre())
                 .documento(cliente.getDocumento())

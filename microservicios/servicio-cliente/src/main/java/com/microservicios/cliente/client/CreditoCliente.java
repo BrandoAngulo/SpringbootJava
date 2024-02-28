@@ -11,6 +11,6 @@ import java.util.List;
 public interface CreditoCliente {
 
     @GetMapping("/lista-credito-cliente/{codigoCliente}")
-    List<CreditoDTO> listarCreditoCliente(@PathVariable Integer codigoCliente);
+    List<CreditoDTO> listaCreditosCliente(@PathVariable Integer codigoCliente);
 
 }
