@@ -17,7 +17,6 @@ public class CategoryDAOImpl implements ICategoryDAO {
     public List<Category> findAll() {
         return (List<Category>) categoryRepository.findAll();
     }
-
     @Override
     public Optional<Category> findById(Integer id) {
         return categoryRepository.findById(id);

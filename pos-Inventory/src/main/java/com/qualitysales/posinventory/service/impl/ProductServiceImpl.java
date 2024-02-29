@@ -1,7 +1,9 @@
 package com.qualitysales.posinventory.service.impl;
 
+import com.qualitysales.posinventory.Controllers.DTO.ProductDTO;
 import com.qualitysales.posinventory.model.Product;
 import com.qualitysales.posinventory.persistence.IProductDAO;
+import com.qualitysales.posinventory.repository.ProductRepository;
 import com.qualitysales.posinventory.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import java.util.Optional;
 public class ProductServiceImpl implements IProductService {
     @Autowired
     private IProductDAO productDAO;
+
+    @Autowired
+    private ProductRepository productRepository;
     @Override
     public List<Product> findByAll() {
 
@@ -20,9 +25,23 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Optional<Product> findById(Integer id) {
+    public ProductDTO findById(Integer id) throws Exception {
 
-        return productDAO.findById(id);
+        Optional<Product> productOptional = productRepository.findById(id);
+
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            return ProductDTO.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .description(product.getDescription())
+                    .supplier(product.getSupplier())
+                    .category(product.getCategory())
+                    .price(product.getPrice())
+                    .stock(product.getStock())
+                    .build();
+        }
+        throw new Exception("Categoria no existe");
     }
 
     @Override

@@ -29,21 +29,8 @@ public class ProductController {
     IProductService iProductService;
 
     @GetMapping("/findBy/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id) {
-        Optional<Product> productOptional = iProductService.findById(id);
-
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
-            ProductDTO productDTO = ProductDTO.builder()
-                    .id(product.getId())
-                    .name(product.getName())
-                    .description(product.getDescription())
-                    .price(product.getPrice())
-                    .stock(product.getStock())
-                    .build();
-            return ResponseEntity.ok(productDTO);
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok().body(iProductService.findById(id));
     }
 
     @GetMapping("/findAll")
@@ -80,26 +67,26 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ProductDTO productDTO) {
-        Optional<Product> productOptional = iProductService.findById(id);
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
+    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody ProductDTO productDTO) throws Exception {
+        ProductDTO productOptional = iProductService.findById(id);
+        if (productOptional.getDescription() == null) {
+            ProductDTO product = productOptional;
             product.setName(productDTO.getName());
             product.setDescription(productDTO.getDescription());
             product.setSupplier(productDTO.getSupplier());
             product.setCategory(productDTO.getCategory());
             product.setPrice(productDTO.getPrice());
             product.setStock(productDTO.getStock());
-            iProductService.save(product);
+
             return ResponseEntity.ok("Product successfully update");
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
-        Optional<Product> productDTOOptional = iProductService.findById(id);
-        if (!(productDTOOptional == null) && productDTOOptional.isPresent()) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
+        ProductDTO productDTOOptional = iProductService.findById(id);
+        if (!(productDTOOptional == null) ) {
             iProductService.deleteById(id);
             return ResponseEntity.ok("Product succesfully deleted");
         }

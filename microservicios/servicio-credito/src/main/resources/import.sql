@@ -1,0 +1,1 @@
+insert into credito(codigocliente, fechacredito, valor, diascredito, estado) values (1, '2024-02-26', 1000.0, 20, 'A'),(1, '2024-02-26', 1000.0, 20, 'A'),(3, '2024-02-26', 1000.0, 20, 'A'),(3, '2024-02-26', 1000.0, 20, 'A');

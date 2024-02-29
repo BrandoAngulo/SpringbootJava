@@ -1,0 +1,8 @@
+
+o	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™øÂÜúÿÿÿÿ8‰Ä¶İ1
+~
+java:S1128"bRemove this unused import 'com.microservicios.credito.repositorio.persistence.CreditoRepositorio'.(Î«ü;8˜”‘ß1
+`
+java:S1128"CRemove this unused import 'org.springframework.stereotype.Service'.(¼º¡Ú8˜”‘ß1
+M
+java:S1128"0Remove this unused import 'java.util.ArrayList'.(÷‰îƒ8™”‘ß1
