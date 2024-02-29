@@ -1,24 +1,38 @@
 #Instruccion para crear el contenedor
 #Despues de configurar las instrucciones del contenedor
 #escribir el comando en la terminal y dentro del proyecto donde este el archivo docker-compose.yml (docker compose up) para levantar el contenedor
-#version: '3.2'
-#services:
-#  db:
-#    container_name: mysql_db
-#    image: mysql:8.2.0
-#    volumes:
-#      - my-db-mysql:/var/lib/mysql
-#    restart: always
-#    ports:
-#      - '3306:3306'
-#    expose:
-#      - '3306'
-#    environment:
-#      MYSQL_USER: 'admin'
-#      MYSQL_PASSWORD: 'admin'
-#      MYSQL_ROOT_PASSWORD: 'admin'
-#volumes:
-#  my-db-mysql:
+version: '3.1'
+services:
+  db-mysql:
+    container_name: cliente-servicio
+    image: mysql:8.2.0
+    volumes:
+      - my-db-cliente:/var/lib/mysql
+    restart: always
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    environment:
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 'admin'
+  db-psql:
+    container_name: credito-servicio
+    image: postgres:alpine3.14
+    volumes:
+      - /var/lib/postgresql/data
+    restart: always
+    ports:
+      - '5434:5432'
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+volumes:
+  my-db-cliente:
+  my-db-credito:
 
 #version: '3.1'
 #services:
@@ -40,21 +54,4 @@
 
 
 
-version: '3.2'
-services:
-  db:
-    container_name: credito-servicio
-    image: postgres:9.6-alpine3.15
-    volumes:
-      - /var/lib/postgresql/data
-    restart: always
-    ports:
-      - '5434:5432'
-    expose:
-      - '5432'
-    environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
-volumes:
-  my-db-credito:
 
