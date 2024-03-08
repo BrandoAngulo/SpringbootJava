@@ -1,25 +1,25 @@
-server:
-  port: 8090
+#server:
+#  port: 8090
 
 spring:
   application:
     name: msvc-cliente
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/clientedb
-    username: root
-    password: admin
-  jpa:
-    hibernate:
-      ddl-auto: create
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3307/clientedb
+#    username: root
+#    password: admin
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL8Dialect
   config:
     import: optional:configserver:http://localhost:8888
 
 #Configurar el microservicio para registrar eureka de forma automatica
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    eureka-server-u-r-l-context: http://locahost:8761/eureka/
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    eureka-server-u-r-l-context: http://locahost:8761/eureka/

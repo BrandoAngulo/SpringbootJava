@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "msvc-credito", url = "localhost:9090/credito")
+@FeignClient(name = "msvc-credito", url = "localhost:8080/credito")
 public interface CreditoCliente {
 
     @GetMapping("/lista-credito-cliente/{codigoCliente}")
