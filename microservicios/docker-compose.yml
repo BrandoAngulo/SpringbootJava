@@ -53,9 +53,9 @@ services:
     command:
       - 'start-dev'
     ports:
-      - '8181:8080'
+      - '8282:8080'
     expose:
-      - 8080
+      - 8282
     depends_on:
       - db-keycloak
     environment:
@@ -67,7 +67,7 @@ services:
       DB_PASSWORD: postgres
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HHTP_PORT: 8181
+      KC_HHTP_PORT: 8282
 volumes:
   my-db-cliente:
   my-db-credito:
