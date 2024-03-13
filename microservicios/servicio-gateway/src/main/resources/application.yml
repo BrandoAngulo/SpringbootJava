@@ -6,6 +6,22 @@ spring:
     name: msvc-gateway
   config:
     import: optional:configserver:http://localhost:8888
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          keycloak:
+#            client-id: microservicio_cliente
+#            client-secret: WzOLxe0j23oWPmdGpTUmpQgHjUDFWfiV
+#            client-name: keycloak
+#            authorization-grant-type: authorization_code
+#            redirect-uri: /realms/mymicroservicios-realm/account/*
+#        provider:
+#          keycloak:
+#            issuer-uri: http://localhost:8181/realms/mymicroservicios-realm
+
+
+
 #  cloud:
 #    gateway:
 #      discovery:

@@ -53,3 +53,5 @@ Yservicio-cliente/src/main/java/com/microservicios/cliente/controlador/DTO/Credi
 eservicio-cliente/src/main/java/com/microservicios/cliente/http/response/ClienteByCreditoResponse.java,6\b\6b2cd3ca506a60e53f55157c3f5fc629eac7849b
 B
 docker-compose.yml,3\5\35b8c13cf2eb2a194eada000eb310d65aed53b2a
+”
+dservicio-gateway/src/main/java/com/microservicios/gateway/serviciogateway/SecurityConfiguration.java,f\5\f562d14c286e1e51589566df2ba51b1713416de7
