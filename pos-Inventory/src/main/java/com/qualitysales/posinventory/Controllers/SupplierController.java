@@ -21,47 +21,19 @@ public class SupplierController {
 
     @GetMapping("/findBy/{id}")
     public ResponseEntity<?> findByid(@PathVariable Integer id){
-        Optional<Supplier> supplierOptional = supplierService.findById(id);
-
-        if (supplierOptional.isPresent()){
-            Supplier supplier = supplierOptional.get();
-            SupplierDTO supplierDTO = SupplierDTO.builder()
-                    .id(supplier.getId())
-                    .name(supplier.getName())
-                    .phone(supplier.getPhone())
-                    .nit(supplier.getNit())
-                    //.productList(supplier.getProductList())
-                    .build();
-            return ResponseEntity.ok(supplierDTO);
-        }
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<?> findAll(){
-        List<SupplierDTO> supplierList = supplierService.findByAll()
-                .stream()
-                .map(supplier -> SupplierDTO.builder()
-                        .id(supplier.getId())
-                        .name(supplier.getName())
-                        .phone(supplier.getPhone())
-                        .nit(supplier.getNit())
-                        //.productList(supplier.getProductList())
-                        .build())
-                .toList();
-        return ResponseEntity.ok(supplierList);
+    public ResponseEntity<List<SupplierDTO>> findAll(){
 
+        return ResponseEntity.ok(supplierService.findByAll());
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody SupplierDTO supplierDTO){
-        supplierService.save(Supplier.builder()
-                .name(supplierDTO.getName())
-                .phone(supplierDTO.getPhone())
-                .nit(supplierDTO.getNit())
-                .build());
-        ResponseEntity.created(URI.create("/api/posinventory/supplier/save")).build();
-        return ResponseEntity.ok("Supplier successfully added");
+    public ResponseEntity<SupplierDTO> save(@Valid @RequestBody SupplierDTO supplierDTO){
+
+        return ResponseEntity.ok(supplierService.save(supplierDTO));
     }
 
     @PutMapping("/update/{id}")

@@ -10,6 +10,6 @@ public interface IProductService {
     List<Product> findByAll();
     ProductDTO findById(Integer id) throws Exception;
     List<Product> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
-    void save(Product product);
+    ProductDTO save(Product product);
     void deleteById(Integer id);
 }

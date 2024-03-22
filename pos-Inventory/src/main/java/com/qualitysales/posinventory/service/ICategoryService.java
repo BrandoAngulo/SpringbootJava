@@ -11,7 +11,7 @@ public interface ICategoryService {
     CategoryDTO findById(Integer id) throws Exception;
     Category save(CategoryDTO categoryDTO) throws URISyntaxException;
 
-    Category update(Integer id, CategoryDTO categoryDTO) throws Exception;
+    CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception;
 
     void deleteById(Integer id) throws Exception;
 
