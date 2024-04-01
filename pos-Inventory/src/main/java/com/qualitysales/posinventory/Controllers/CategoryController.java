@@ -2,7 +2,7 @@ package com.qualitysales.posinventory.Controllers;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
 import com.qualitysales.posinventory.repository.CategoryRepository;
-import com.qualitysales.posinventory.service.ICategoryService;
+import com.qualitysales.posinventory.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 public class CategoryController {
 
     @Autowired
-    private ICategoryService categoryService;
+    private CategoryService categoryService;
     private CategoryRepository categoryRepository;
 
     public CategoryController(CategoryRepository categoryRepository) {

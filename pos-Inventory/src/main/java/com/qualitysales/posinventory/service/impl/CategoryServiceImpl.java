@@ -2,26 +2,20 @@ package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
 import com.qualitysales.posinventory.model.Category;
-import com.qualitysales.posinventory.persistence.ICategoryDAO;
 import com.qualitysales.posinventory.repository.CategoryRepository;
-import com.qualitysales.posinventory.service.ICategoryService;
+import com.qualitysales.posinventory.service.CategoryService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class CategoryServiceImpl implements ICategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
 
@@ -83,8 +77,7 @@ public class CategoryServiceImpl implements ICategoryService {
                 .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
 
         try {
-            category.setDescription(
-                    categoryDTO.getDescripcion());
+            category.setDescription(categoryDTO.getDescripcion());
             categoryRepository.save(category);
             log.info("update: " + category);
             return categoryDTO;

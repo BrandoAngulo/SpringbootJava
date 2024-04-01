@@ -3,7 +3,7 @@ package com.qualitysales.posinventory.service.impl;
 import com.qualitysales.posinventory.Controllers.DTO.ProductDTO;
 import com.qualitysales.posinventory.model.Product;
 import com.qualitysales.posinventory.repository.ProductRepository;
-import com.qualitysales.posinventory.service.IProductService;
+import com.qualitysales.posinventory.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -12,13 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class ProductServiceImpl implements IProductService {
+public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
 
@@ -88,6 +87,23 @@ public class ProductServiceImpl implements IProductService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public Product update(Integer id, ProductDTO productDTO) {
+        Product product = productRepository.findById(id).orElseThrow
+                (() -> new RuntimeException("Product not found"));
+        try {
+            product.setName(productDTO.getName());
+            product.setDescription(productDTO.getDescription());
+            product.setSupplier(productDTO.getSupplier());
+            product.setCategory(productDTO.getCategory());
+            product.setStock(productDTO.getStock());
+            log.info("update = " + product);
+            return productRepository.save(product);
+        } catch (RuntimeException e) {
+            log.error("update = " + product);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

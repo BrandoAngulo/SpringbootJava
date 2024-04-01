@@ -3,10 +3,9 @@ package com.qualitysales.posinventory.service.impl;
 import com.qualitysales.posinventory.Controllers.DTO.SupplierDTO;
 import com.qualitysales.posinventory.model.Supplier;
 import com.qualitysales.posinventory.repository.SupplierRepository;
-import com.qualitysales.posinventory.service.ISupplierService;
+import com.qualitysales.posinventory.service.SupplierService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class SupplierServiceImpl implements ISupplierService {
+public class SupplierServiceImpl implements SupplierService {
 
     private SupplierRepository supplierRepository;
 
@@ -85,7 +84,8 @@ public class SupplierServiceImpl implements ISupplierService {
             return supplierRepository.save(supplier);
 
         } catch (RuntimeException e) {
-            log.info("");
+            log.error("update" + supplier);
+            throw new RuntimeException(e);
         }
 
     }
