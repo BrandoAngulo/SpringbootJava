@@ -20,9 +20,14 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> findByAll() {
+    public List<Category> findAll() {
+        System.out.println("Hola >>>>>");
         List<Category> categories = categoryRepository.findAll();
-        try {
+        if (categories.isEmpty()){
+            log.error("findAll = " + categories);
+            throw new RuntimeException("No tiene categorias creadas");
+        }
+        /*try {
             log.info("findByAll: " + categories);
             return categories;
 
@@ -31,7 +36,8 @@ public class CategoryServiceImpl implements CategoryService {
             log.error("findByAll: " + categories);
             throw new RuntimeException(e);
 
-        }
+        }*/
+        return categories;
 
     }
 

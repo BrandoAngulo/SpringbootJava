@@ -25,36 +25,15 @@ public class ProductController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<?> getAll() {
-        List<ProductDTO> productList = productService.findByAll()
-                .stream()
-                .map(product -> ProductDTO.builder()
-                        .id(product.getId())
-                        .name(product.getName())
-                        .description(product.getDescription())
-                        .supplier(product.getSupplier())
-                        .category(product.getCategory())
-                        .price(product.getPrice())
-                        .stock(product.getStock())
-                        .build()
-                ).toList();
+    public ResponseEntity<List<Product>> getAll() {
+        List<Product> productList = productService.findByAll();
         return ResponseEntity.ok(productList);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody ProductDTO productDTO) throws URISyntaxException {
+    public ResponseEntity<Product> save(@Valid @RequestBody ProductDTO productDTO) {
 
-        productService.save(Product.builder()
-                .name(productDTO.getName())
-                .description(productDTO.getDescription())
-                .supplier(productDTO.getSupplier())
-                .category(productDTO.getCategory())
-                .price(productDTO.getPrice())
-                .stock(productDTO.getStock())
-                .build());
-        ResponseEntity.created(new URI("/api/posinventory/category/save")).build();
-        System.out.println(ResponseEntity.ok(productDTO.getDescription()));
-        return ResponseEntity.ok("Product successfully added");
+        return ResponseEntity.ok(productService.save(productDTO));
     }
 
     @PutMapping("/update/{id}")

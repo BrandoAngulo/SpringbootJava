@@ -1,27 +1,20 @@
 package com.qualitysales.posinventory.Controllers;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
-import com.qualitysales.posinventory.repository.CategoryRepository;
 import com.qualitysales.posinventory.service.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
 
-@RestController
+@AllArgsConstructor
 @RequestMapping("/api/posinventory/category")
+@RestController
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
-    private CategoryRepository categoryRepository;
-
-    public CategoryController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
+    private final CategoryService categoryService;
 
     @GetMapping("/find/{id}")
     public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id) throws Exception {
@@ -29,14 +22,14 @@ public class CategoryController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<Object> findAll() {
 
-        return ResponseEntity.ok().body(categoryService.findByAll());
+        return ResponseEntity.ok().body(categoryService.findAll());
 
     }
 
     @PostMapping("/save")
-    public ResponseEntity save(@Valid @RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
+    public ResponseEntity<?> save(@Valid @RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
 
         return ResponseEntity.ok().body(categoryService.save(categoryDTO));
     }
@@ -48,7 +41,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
 
         categoryService.deleteById(id);
 

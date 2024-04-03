@@ -23,8 +23,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findByAll() {
+        List<Product> productList = productRepository.findAll();
+        try {
+            productList
+                    .stream()
+                    .map(product -> ProductDTO.builder()
+                            .id(product.getId())
+                            .name(product.getName())
+                            .description(product.getDescription())
+                            .supplier(product.getSupplier())
+                            .category(product.getCategory())
+                            .price(product.getPrice())
+                            .stock(product.getStock())
+                            .build()
+                    ).toList();
+            return productList;
 
-        return productRepository.findAll();
+        } catch (RuntimeException e) {
+            log.error("findByAll = " + productList);
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -68,22 +86,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductDTO save(Product product) {
-        Product product1 = new Product();
-        if (product1.getId() == null) {
-            log.error("save" + product1);
+    public Product save(ProductDTO productDTO) {
+        Product product = new Product();
+        if (product.getId() == null) {
+            log.error("save" + product);
             throw new RuntimeException();
         }
         try {
-            return ProductDTO.builder()
-                    .name(product1.getName())
-                    .description(product1.getDescription())
-                    .category(product1.getCategory())
-                    .price(product1.getPrice())
-                    .stock(product1.getStock())
-                    .build();
+            Product.builder()
+                    .name(productDTO.getName())
+                    .description(productDTO.getDescription())
+                    .category(productDTO.getCategory())
+                    .price(productDTO.getPrice())
+                    .stock(productDTO.getStock()).build();
+
+            return productRepository.save(product);
+
         } catch (RuntimeException e) {
-            log.error("save" + product1);
+            log.error("save" + product);
             throw new RuntimeException(e);
         }
 
