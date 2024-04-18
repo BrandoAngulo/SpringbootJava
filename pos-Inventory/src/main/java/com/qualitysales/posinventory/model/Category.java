@@ -22,7 +22,7 @@ public class Category {
     private Integer id;
     @Column(name = "descripcion")
     private String description;
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @JsonIgnore
     private List<Product> productList = new ArrayList<>();
 }

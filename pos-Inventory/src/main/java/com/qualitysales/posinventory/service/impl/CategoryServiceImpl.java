@@ -5,15 +5,14 @@ import com.qualitysales.posinventory.model.Category;
 import com.qualitysales.posinventory.repository.CategoryRepository;
 import com.qualitysales.posinventory.service.CategoryService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
@@ -21,32 +20,29 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> findAll() {
-        System.out.println("Hola >>>>>");
+        System.out.println("categories = antes de");
         List<Category> categories = categoryRepository.findAll();
-        if (categories.isEmpty()){
-            log.error("findAll = " + categories);
-            throw new RuntimeException("No tiene categorias creadas");
-        }
-        /*try {
+        //return  categories;
+        System.out.println("categories = " + categories);
+        try {
             log.info("findByAll: " + categories);
             return categories;
 
-        } catch (Exception e) {
-
+        } catch (RuntimeException e) {
             log.error("findByAll: " + categories);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
 
-        }*/
-        return categories;
-
+        }
     }
 
     @Override
     public CategoryDTO findById(Integer id) {
+        Logger logger = Logger.getLogger(getClass().getName());
 
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
         try {
+            System.out.println("category = " + category);
             log.info("findById: " + category);
             return CategoryDTO.builder()
                     .id(category.getId())
@@ -54,6 +50,8 @@ public class CategoryServiceImpl implements CategoryService {
                     .build();
 
         } catch (RuntimeException e) {
+
+            logger.info("findById" + category);
             log.error("findById: " + category);
             throw new RuntimeException(e);
         }

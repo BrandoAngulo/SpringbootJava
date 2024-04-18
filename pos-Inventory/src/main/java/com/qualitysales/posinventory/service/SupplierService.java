@@ -9,7 +9,7 @@ public interface SupplierService {
 
     List<SupplierDTO> findByAll();
     Supplier findById(Integer id) throws RuntimeException;
-    SupplierDTO save(SupplierDTO supplierDTO);
-    Supplier update( Integer id, SupplierDTO supplierDTO);
+    SupplierDTO save(Supplier supplier);
+    SupplierDTO update(Integer id, Supplier supplier);
     void deleteById(Integer id);
 }

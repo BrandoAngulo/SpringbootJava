@@ -2,7 +2,9 @@ package com.qualitysales.posinventory.Controllers;
 
 import com.qualitysales.posinventory.Controllers.DTO.SupplierDTO;
 import com.qualitysales.posinventory.model.Supplier;
+import com.qualitysales.posinventory.repository.SupplierRepository;
 import com.qualitysales.posinventory.service.SupplierService;
+import com.qualitysales.posinventory.service.impl.SupplierServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,28 +18,29 @@ import java.util.Optional;
 public class SupplierController {
 
     @Autowired
-    private SupplierService supplierService;
+    private SupplierServiceImpl supplierService;
 
     @GetMapping("/findBy/{id}")
     public ResponseEntity<?> findByid(@PathVariable Integer id) {
-        return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok(supplierService.findById(id));
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<SupplierDTO>> findAll() {
+    public ResponseEntity<?> findAll() {
 
         return ResponseEntity.ok(supplierService.findByAll());
     }
 
     @PostMapping("/save")
-    public ResponseEntity<SupplierDTO> save(@Valid @RequestBody SupplierDTO supplierDTO) {
+    public ResponseEntity<SupplierDTO> save(@Valid @RequestBody Supplier supplier) {
 
-        return ResponseEntity.ok(supplierService.save(supplierDTO));
+        return ResponseEntity.ok(supplierService.save(supplier));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Supplier> update(@PathVariable Integer id, @RequestBody SupplierDTO supplierDTO) {
-        return ResponseEntity.ok(supplierService.update(id, supplierDTO));
+    public ResponseEntity<SupplierDTO> update(@PathVariable Integer id, @RequestBody Supplier supplier) {
+        return ResponseEntity.ok(supplierService.update(id, supplier));
     }
 
     @DeleteMapping("/delete/{id}")

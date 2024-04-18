@@ -1,30 +1,32 @@
 package com.qualitysales.posinventory.Controllers;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
-import com.qualitysales.posinventory.service.CategoryService;
+import com.qualitysales.posinventory.model.Category;
+import com.qualitysales.posinventory.service.impl.CategoryServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 @AllArgsConstructor
 @RequestMapping("/api/posinventory/category")
 @RestController
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final CategoryServiceImpl categoryService;
 
     @GetMapping("/find/{id}")
     public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id) throws Exception {
-        return ResponseEntity.ok().body(categoryService.findById(id));
+        return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<Object> findAll() {
-
-        return ResponseEntity.ok().body(categoryService.findAll());
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> categories = categoryService.findAll();
+        return ResponseEntity.ok(categories);
 
     }
 
