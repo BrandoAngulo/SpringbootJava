@@ -23,6 +23,5 @@ public class Category {
     @Column(name = "descripcion")
     private String description;
     @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    @JsonIgnore
     private List<Product> productList = new ArrayList<>();
 }

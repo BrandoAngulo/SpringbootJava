@@ -25,11 +25,9 @@ public class Product {
     private String description;
     @ManyToOne
     @JoinColumn(name = "id_proveedor",nullable = false)
-    @JsonIgnore
     private Supplier supplier;
     @ManyToOne
     @JoinColumn(name = "id_categoria", nullable = false)
-    @JsonIgnore
     private Category category;
     @Column(name = "precio")
     private BigDecimal price;

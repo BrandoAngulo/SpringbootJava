@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService {
-    List<Product> findByAll();
+    List<ProductDTO> findByAll();
     ProductDTO findById(Integer id) throws Exception;
     List<Product> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
-    Product save(ProductDTO productDTO);
+    Product save(Product product);
     Product update(Integer id, ProductDTO productDTO);
     void deleteById(Integer id);
 }

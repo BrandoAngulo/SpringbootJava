@@ -1,8 +1,12 @@
 package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.ProductDTO;
+import com.qualitysales.posinventory.model.Category;
 import com.qualitysales.posinventory.model.Product;
+import com.qualitysales.posinventory.model.Supplier;
+import com.qualitysales.posinventory.repository.CategoryRepository;
 import com.qualitysales.posinventory.repository.ProductRepository;
+import com.qualitysales.posinventory.repository.SupplierRepository;
 import com.qualitysales.posinventory.service.ProductService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -14,18 +18,27 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
 @Slf4j
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
+    public ProductServiceImpl(ProductRepository productRepository, SupplierRepository supplierRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.supplierRepository = supplierRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+    private final ProductRepository productRepository;
+    private final SupplierRepository supplierRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @Override
-    public List<Product> findByAll() {
+    public List<ProductDTO> findByAll() {
         List<Product> productList = productRepository.findAll();
         try {
-            productList
+            log.info("findById" + productList);
+            return productList
                     .stream()
                     .map(product -> ProductDTO.builder()
                             .id(product.getId())
@@ -37,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
                             .stock(product.getStock())
                             .build()
                     ).toList();
-            return productList;
 
         } catch (RuntimeException e) {
             log.error("findByAll = " + productList);
@@ -62,49 +74,41 @@ public class ProductServiceImpl implements ProductService {
                     .build();
         } catch (RuntimeException e) {
             log.error("findById" + product);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
     @Override
     public List<Product> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-        List<Product> lista = productRepository.findAll();
-        String findRange = "findByPriceRange";
-        if (lista.isEmpty()) {
-            log.error(findRange + lista);
-            throw new RuntimeException();
+        if (minPrice.compareTo(maxPrice) > 0) {
+
+            throw new IllegalArgumentException("El rango de precios no es valido");
         }
         try {
-            log.info(findRange + lista);
-            return productRepository.findProductByPriceBetween(minPrice, maxPrice);
+            List<Product> products = productRepository.findProductByPriceBetween(minPrice, maxPrice);
+            if (products.isEmpty()) {
+                log.warn("No tiene productos");
+            }
+            return products;
 
         } catch (RuntimeException e) {
-            log.error(findRange + lista);
             throw new RuntimeException(e);
         }
     }
 
     @Transactional
     @Override
-    public Product save(ProductDTO productDTO) {
-        Product product = new Product();
-        if (product.getId() == null) {
-            log.error("save" + product);
-            throw new RuntimeException();
-        }
-        try {
-            Product.builder()
-                    .name(productDTO.getName())
-                    .description(productDTO.getDescription())
-                    .category(productDTO.getCategory())
-                    .price(productDTO.getPrice())
-                    .stock(productDTO.getStock()).build();
+    public Product save(Product product) {
 
-            return productRepository.save(product);
+        Category category =
+
+        try {
+            log.info("Producto= " + product);
+            return  productRepository.save(product);
 
         } catch (RuntimeException e) {
             log.error("save" + product);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
 
     }

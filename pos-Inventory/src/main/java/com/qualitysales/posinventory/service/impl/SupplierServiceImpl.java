@@ -1,6 +1,7 @@
 package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.SupplierDTO;
+import com.qualitysales.posinventory.model.Product;
 import com.qualitysales.posinventory.model.Supplier;
 import com.qualitysales.posinventory.repository.SupplierRepository;
 import com.qualitysales.posinventory.service.SupplierService;
@@ -13,7 +14,6 @@ import java.util.List;
 @Service
 @Slf4j
 @Transactional
-
 public class SupplierServiceImpl implements SupplierService {
 
     private final SupplierRepository supplierRepository;
@@ -78,36 +78,34 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public SupplierDTO update(Integer id, Supplier supplier) {
-        Supplier supplier1 = supplierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("El id no existe"));
-        SupplierDTO supplierDTO = new SupplierDTO();
+    public Supplier update(Integer id, SupplierDTO supplierDTO) {
+        Supplier supplier = supplierRepository.findById(id).orElseThrow(() -> new RuntimeException("El id no existe"));
         try {
+            supplier.setName(supplierDTO.getName());
+            supplier.setPhone(supplierDTO.getPhone());
+            supplier.setNit(supplierDTO.getNit());
             log.info("update: " + supplier);
-            supplier1.setName(supplierDTO.getName());
-            supplier1.setPhone(supplierDTO.getPhone());
-            supplier1.setNit(supplierDTO.getNit());
-            supplierRepository.save(supplier);
-            return supplierDTO;
+            return supplierRepository.save(supplier);
+
 
         } catch (RuntimeException e) {
             log.error("update" + supplier);
             throw new RuntimeException(e);
         }
-}
-
-
-@Override
-public void deleteById(Integer id) {
-    Supplier supplier = supplierRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Error"));
-    try {
-        log.info("deleteById" + supplier);
-        supplierRepository.deleteById(supplier.getId());
-    } catch (RuntimeException e) {
-        log.error("deleteById" + supplier);
-        throw new RuntimeException(e);
     }
 
-}
+
+    @Override
+    public void deleteById(Integer id) {
+        Supplier supplier = supplierRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error"));
+        try {
+            log.info("deleteById" + supplier);
+            supplierRepository.deleteById(supplier.getId());
+        } catch (RuntimeException e) {
+            log.error("deleteById" + supplier);
+            throw new RuntimeException(e);
+        }
+
+    }
 }

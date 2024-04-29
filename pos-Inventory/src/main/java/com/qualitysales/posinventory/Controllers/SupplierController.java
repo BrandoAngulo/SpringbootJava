@@ -17,8 +17,11 @@ import java.util.Optional;
 @RequestMapping("/api/posinventory/supplier")
 public class SupplierController {
 
-    @Autowired
-    private SupplierServiceImpl supplierService;
+    private final SupplierServiceImpl supplierService;
+
+    public SupplierController(SupplierServiceImpl supplierService) {
+        this.supplierService = supplierService;
+    }
 
     @GetMapping("/findBy/{id}")
     public ResponseEntity<?> findByid(@PathVariable Integer id) {
@@ -39,8 +42,8 @@ public class SupplierController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<SupplierDTO> update(@PathVariable Integer id, @RequestBody Supplier supplier) {
-        return ResponseEntity.ok(supplierService.update(id, supplier));
+    public ResponseEntity<Supplier> update(@PathVariable Integer id, @RequestBody SupplierDTO supplierDTO) {
+        return ResponseEntity.ok(supplierService.update(id, supplierDTO));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -14,7 +14,8 @@ import java.util.List;
 @Entity
 @Table(name = "proveedor")
 @ToString
-public class Supplier {
+public class
+Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
@@ -24,8 +25,5 @@ public class Supplier {
     private String phone;
     @Column
     private String nit;
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonIgnore
-    private List<Product> productList = new ArrayList<>();
 
 }
