@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO findById(Integer id) throws Exception {
+    public ProductDTO findById(Integer id) {
 
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Error id no existe"));
         try {
@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
                     .stock(product.getStock())
                     .build();
         } catch (RuntimeException e) {
-            log.error("findById" + product);
+            log.error("findById= " + product);
             throw new IllegalArgumentException(e);
         }
     }
@@ -98,13 +98,21 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Product save(Product product) {
-
-        Category category =
-
+    public ProductDTO save(Product product) {
         try {
-            log.info("Producto= " + product);
-            return  productRepository.save(product);
+
+            ProductDTO productSave = ProductDTO.builder()
+                    .id(product.getId())
+                    .name(product.getName())
+                    .description(product.getDescription())
+                    .category(product.getCategory())
+                    .supplier(product.getSupplier())
+                    .price(product.getPrice())
+                    .stock(product.getStock())
+                    .build();
+            log.info("productSave = " + productSave);
+            productRepository.save(product);
+            return  productSave;
 
         } catch (RuntimeException e) {
             log.error("save" + product);
@@ -121,6 +129,7 @@ public class ProductServiceImpl implements ProductService {
             product.setDescription(productDTO.getDescription());
             product.setSupplier(productDTO.getSupplier());
             product.setCategory(productDTO.getCategory());
+            product.setPrice(productDTO.getPrice());
             product.setStock(productDTO.getStock());
             log.info("update = " + product);
             return productRepository.save(product);

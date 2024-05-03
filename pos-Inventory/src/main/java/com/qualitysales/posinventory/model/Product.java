@@ -24,10 +24,10 @@ public class Product {
     @Column(name = "descripcion")
     private String description;
     @ManyToOne
-    @JoinColumn(name = "id_proveedor",nullable = false)
+    @JoinColumn(name = "id_proveedor")
     private Supplier supplier;
     @ManyToOne
-    @JoinColumn(name = "id_categoria", nullable = false)
+    @JoinColumn(name = "id_categoria")
     private Category category;
     @Column(name = "precio")
     private BigDecimal price;

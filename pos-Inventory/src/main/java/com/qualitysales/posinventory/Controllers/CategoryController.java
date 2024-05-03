@@ -19,21 +19,21 @@ public class CategoryController {
     private final CategoryServiceImpl categoryService;
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id) throws Exception {
+    public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id)  {
         return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = categoryService.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> categories = categoryService.findAll();
         return ResponseEntity.ok(categories);
 
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> save(@Valid @RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
+    public ResponseEntity<CategoryDTO> save(@Valid @RequestBody Category category)  {
 
-        return ResponseEntity.ok().body(categoryService.save(categoryDTO));
+        return ResponseEntity.ok().body(categoryService.save(category));
     }
 
     @PutMapping("/update/{id}")

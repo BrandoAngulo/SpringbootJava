@@ -22,6 +22,4 @@ public class Category {
     private Integer id;
     @Column(name = "descripcion")
     private String description;
-    @OneToMany(mappedBy = "category",cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<Product> productList = new ArrayList<>();
 }

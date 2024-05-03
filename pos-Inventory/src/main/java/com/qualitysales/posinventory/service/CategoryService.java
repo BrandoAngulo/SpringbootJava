@@ -7,9 +7,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> findAll();
+    List<CategoryDTO> findAll();
     CategoryDTO findById(Integer id) throws Exception;
-    Category save(CategoryDTO categoryDTO) throws URISyntaxException;
+    CategoryDTO save(Category category) throws URISyntaxException;
 
     CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception;
 

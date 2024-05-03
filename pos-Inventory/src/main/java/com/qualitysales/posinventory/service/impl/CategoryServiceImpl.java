@@ -19,14 +19,16 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public List<Category> findAll() {
+    public List<CategoryDTO> findAll() {
         System.out.println("categories = antes de");
         List<Category> categories = categoryRepository.findAll();
-        //return  categories;
-        System.out.println("categories = " + categories);
         try {
             log.info("findByAll: " + categories);
-            return categories;
+            return categories.stream().map(category -> CategoryDTO.builder()
+                    .id(category.getId())
+                    .descripcion(category.getDescription())
+                    .build()).toList();
+
 
         } catch (RuntimeException e) {
             log.error("findByAll: " + categories);
@@ -59,14 +61,14 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public Category save(CategoryDTO categoryDTO) {
-        Category category = new Category();
+    public CategoryDTO save(Category category) {
         try {
 
-            return categoryRepository.save(
-                    Category.builder()
-                            .description(categoryDTO.getDescripcion())
-                            .build());
+           CategoryDTO categoryDTO =  CategoryDTO.builder()
+                    .descripcion(category.getDescription())
+                    .build();
+           categoryRepository.save(category);
+           return categoryDTO;
 
         } catch (RuntimeException e) {
             log.error("save: " + category);
