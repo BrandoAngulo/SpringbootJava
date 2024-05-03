@@ -6,12 +6,12 @@ import com.qualitysales.posinventory.model.Category;
 import java.net.URISyntaxException;
 import java.util.List;
 
-public interface ICategoryService {
-    List<Category> findByAll();
+public interface CategoryService {
+    List<CategoryDTO> findAll();
     CategoryDTO findById(Integer id) throws Exception;
-    Category save(CategoryDTO categoryDTO) throws URISyntaxException;
+    CategoryDTO save(Category category) throws URISyntaxException;
 
-    Category update(Integer id, CategoryDTO categoryDTO) throws Exception;
+    CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception;
 
     void deleteById(Integer id) throws Exception;
 

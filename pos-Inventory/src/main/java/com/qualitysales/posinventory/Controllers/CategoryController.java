@@ -1,44 +1,39 @@
 package com.qualitysales.posinventory.Controllers;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
-import com.qualitysales.posinventory.repository.CategoryRepository;
-import com.qualitysales.posinventory.service.ICategoryService;
+import com.qualitysales.posinventory.model.Category;
+import com.qualitysales.posinventory.service.impl.CategoryServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
-@RestController
+@AllArgsConstructor
 @RequestMapping("/api/posinventory/category")
+@RestController
 public class CategoryController {
 
-    @Autowired
-    private ICategoryService categoryService;
-    private CategoryRepository categoryRepository;
-
-    public CategoryController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
-
+    private final CategoryServiceImpl categoryService;
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id) throws Exception {
-        return ResponseEntity.ok().body(categoryService.findById(id));
+    public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id)  {
+        return ResponseEntity.ok(categoryService.findById(id));
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<?> findAll() {
-
-        return ResponseEntity.ok().body(categoryService.findByAll());
+    public ResponseEntity<List<CategoryDTO>> findAll() {
+        List<CategoryDTO> categories = categoryService.findAll();
+        return ResponseEntity.ok(categories);
 
     }
 
     @PostMapping("/save")
-    public ResponseEntity save(@Valid @RequestBody CategoryDTO categoryDTO) throws URISyntaxException {
+    public ResponseEntity<CategoryDTO> save(@Valid @RequestBody Category category)  {
 
-        return ResponseEntity.ok().body(categoryService.save(categoryDTO));
+        return ResponseEntity.ok().body(categoryService.save(category));
     }
 
     @PutMapping("/update/{id}")
@@ -48,7 +43,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
 
         categoryService.deleteById(id);
 

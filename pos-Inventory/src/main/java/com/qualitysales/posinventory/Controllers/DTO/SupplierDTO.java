@@ -1,5 +1,6 @@
 package com.qualitysales.posinventory.Controllers.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qualitysales.posinventory.model.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,5 +24,4 @@ public class SupplierDTO {
     private String phone;
     @NotBlank
     private String nit;
-    //List<Product> productList = new ArrayList<>();
 }

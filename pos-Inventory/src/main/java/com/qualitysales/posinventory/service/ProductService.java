@@ -6,10 +6,11 @@ import com.qualitysales.posinventory.model.Product;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface IProductService {
-    List<Product> findByAll();
+public interface ProductService {
+    List<ProductDTO> findByAll();
     ProductDTO findById(Integer id) throws Exception;
     List<Product> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
-    void save(Product product);
+    ProductDTO save(Product product);
+    Product update(Integer id, ProductDTO productDTO);
     void deleteById(Integer id);
 }
