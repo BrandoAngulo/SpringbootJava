@@ -7,5 +7,9 @@ import java.util.List;
 
 public interface UserService {
 
-    List<UserDTO> ListUsers(User user);
+    List<UserDTO> listUsers(User user);
+    UserDTO listUser(Integer id);
+    UserDTO saveUser(User user);
+    UserDTO updateUser(Integer id, User user);
+    void deleteUser(Integer id);
 }
