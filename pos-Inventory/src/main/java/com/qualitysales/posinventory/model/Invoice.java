@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 @ToString
 @Builder
 @Entity
-@Table(name = "factura", uniqueConstraints = @UniqueConstraint(columnNames = {"codigofactura"}))
+@Table(name = "factura")
 public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

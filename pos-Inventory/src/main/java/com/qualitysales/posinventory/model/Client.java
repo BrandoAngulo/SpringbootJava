@@ -22,7 +22,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @Entity
-@Table(name = "cliente", uniqueConstraints = @UniqueConstraint(columnNames = {"correo"}))
+@Table(name = "cliente")
 public class Client {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)

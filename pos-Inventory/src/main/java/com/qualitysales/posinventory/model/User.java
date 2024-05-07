@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @Entity
-@Table(name = "usuario", uniqueConstraints = @UniqueConstraint(columnNames = {"correo"}))
+@Table(name = "usuario")
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
