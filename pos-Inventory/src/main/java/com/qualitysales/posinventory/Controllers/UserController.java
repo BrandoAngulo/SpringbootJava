@@ -3,10 +3,9 @@ package com.qualitysales.posinventory.Controllers;
 import com.qualitysales.posinventory.Controllers.DTO.UserDTO;
 import com.qualitysales.posinventory.model.User;
 import com.qualitysales.posinventory.service.impl.UserServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +19,33 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/listUser")
-    public List<UserDTO> listUser(){
-        return userService.listUsers();
+    @GetMapping("/findAll")
+    public List<UserDTO> listUsers() {
+
+        return ResponseEntity.ok(userService.listUsers()).getBody();
+    }
+
+    @GetMapping("/find-by/{id}")
+    public UserDTO listUser(@PathVariable Integer id) {
+
+        return ResponseEntity.ok().body(userService.listUser(id)).getBody();
+    }
+
+    @PostMapping("/save")
+    public UserDTO save(@Valid @RequestBody User user) {
+
+        return ResponseEntity.ok().body(userService.saveUser(user)).getBody();
+    }
+    @PutMapping("/update/{id}")
+    public User update(@PathVariable Integer id, @RequestBody UserDTO userDTO) {
+
+        return ResponseEntity.ok(userService.updateUser(id, userDTO)).getBody();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable Integer id) {
+
+        userService.deleteUser(id);
     }
 
 }

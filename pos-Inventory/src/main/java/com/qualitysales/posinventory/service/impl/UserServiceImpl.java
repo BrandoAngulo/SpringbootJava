@@ -1,14 +1,18 @@
 package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.UserDTO;
+import com.qualitysales.posinventory.mapper.UserMapper;
 import com.qualitysales.posinventory.model.User;
 import com.qualitysales.posinventory.repository.UserRepository;
 import com.qualitysales.posinventory.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
@@ -24,13 +28,8 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> listUsers() {
         List<User> userList = userRepository.findAll();
         try {
-            return userList.stream().map(user1 -> UserDTO.builder()
-                            .id(user1.getId())
-                            .name(user1.getName())
-                            .lastName(user1.getLastName())
-                            .code(user1.getCode())
-                            .state(user1.getState())
-                            .build())
+            return userList.stream()
+                    .map(UserMapper::convertToDTO)
                     .toList();
         } catch (Exception e) {
             log.error("listUsers = " + userList);
@@ -42,13 +41,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO listUser(Integer id) {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
         try {
-            return UserDTO.builder()
-                    .id(user.getId())
-                    .name(user.getName())
-                    .lastName(user.getLastName())
-                    .code(user.getCode())
-                    .state(user.getState())
-                    .build();
+            return UserMapper.convertToDTO(user);
         } catch (Exception e) {
             log.error("listUsers = " + user);
             throw new IllegalArgumentException(e);
@@ -57,44 +50,45 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO saveUser(User user) {
-        if (user.getId() == null) {
-            log.error("saveUser = " + user.toString());
-            throw new IllegalArgumentException("User id is null ");
+        if (user.getName() == null) {
+            log.error("saveUser = " + user);
+            throw new IllegalArgumentException("Username is null ");
         }
         try {
-            UserDTO userDTO = UserDTO.builder()
+            UserDTO userDTO = UserMapper.convertToDTO(user);
+            /*UserDTO userDTO = UserDTO.builder()
                     .id(user.getId())
                     .name(user.getName())
                     .lastName(user.getLastName())
                     .code(user.getCode())
+                    .email(user.getEmail())
                     .state(user.getState())
-                    .build();
+                    .build();*/
             userRepository.save(user);
+            log.info("saveUser = " + user);
             return userDTO;
 
         } catch (Exception e) {
-            log.error("saveUser = " + user.toString());
-            throw new IllegalArgumentException("Uncontroller error ");
+            log.error("saveUser = " + user);
+            throw new IllegalArgumentException("Uncontrolled error ");
         }
     }
 
     @Override
-    public UserDTO updateUser(Integer id, User user) {
+    public User updateUser(Integer id, UserDTO userDTO) {
         User existUser = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
-
         try {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(existUser.getId());
-            userDTO.setName(existUser.getLastName());
-            userDTO.setCode(existUser.getCode());
-            userDTO.setEmail(existUser.getEmail());
-            userDTO.setState(existUser.getState());
-            saveUser(existUser);
-            return userDTO;
+            existUser.setName(userDTO.getName());
+            existUser.setLastName(userDTO.getLastName());
+            existUser.setCode(userDTO.getCode());
+            existUser.setEmail(userDTO.getEmail());
+            existUser.setState(userDTO.getState());
+            log.info("existUserSave = " + existUser);
+            return userRepository.save(existUser);
 
 
         } catch (Exception e) {
-            log.error("updateUser = " + user.toString());
+            log.error("updateUser = " + existUser.toString());
             throw new IllegalArgumentException("Uncontroller error ");
         }
     }

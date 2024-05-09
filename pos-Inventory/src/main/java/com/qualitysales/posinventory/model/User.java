@@ -1,11 +1,6 @@
 package com.qualitysales.posinventory.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.Builder;
 import lombok.AllArgsConstructor;
@@ -26,9 +21,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
+    @Column(name = "nombre")
     private String name;
+    @Column(name = "apellido")
     private String lastName;
+    @Column(name = "codigo")
     private String code;
+    @Column(name = "correo")
     private String email;
+    @Column(name = "estado")
     private String state;
 }
