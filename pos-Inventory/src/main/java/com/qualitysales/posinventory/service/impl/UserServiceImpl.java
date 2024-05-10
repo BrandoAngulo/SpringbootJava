@@ -7,12 +7,9 @@ import com.qualitysales.posinventory.repository.UserRepository;
 import com.qualitysales.posinventory.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Transactional
@@ -56,14 +53,7 @@ public class UserServiceImpl implements UserService {
         }
         try {
             UserDTO userDTO = UserMapper.convertToDTO(user);
-            /*UserDTO userDTO = UserDTO.builder()
-                    .id(user.getId())
-                    .name(user.getName())
-                    .lastName(user.getLastName())
-                    .code(user.getCode())
-                    .email(user.getEmail())
-                    .state(user.getState())
-                    .build();*/
+
             userRepository.save(user);
             log.info("saveUser = " + user);
             return userDTO;
