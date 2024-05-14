@@ -5,10 +5,14 @@ import com.qualitysales.posinventory.model.Category;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface CategoryMapper {
     CategoryMapper MAPPER = Mappers.getMapper(CategoryMapper.class);
 
     Category toCategory(CategoryDTO categoryDTO);
     CategoryDTO toCategoryDto(Category category);
+    List<Category> toCategories(List<CategoryDTO> categoryDTO);
+    List<CategoryDTO> toCategoryDtos(List<Category> category);
 }

@@ -1,6 +1,7 @@
 package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
+import com.qualitysales.posinventory.mapper.CategoryMapper;
 import com.qualitysales.posinventory.model.Category;
 import com.qualitysales.posinventory.repository.CategoryRepository;
 import com.qualitysales.posinventory.service.CategoryService;
@@ -22,13 +23,10 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> findAll() {
         System.out.println("categories = antes de");
         List<Category> categories = categoryRepository.findAll();
+        List<CategoryDTO> categoryDTOList = CategoryMapper.MAPPER.toCategoryDtos(categories);
         try {
             log.info("findByAll: " + categories);
-            return categories.stream().map(category -> CategoryDTO.builder()
-                    .id(category.getId())
-                    .descripcion(category.getDescription())
-                    .build()).toList();
-
+            return categoryDTOList;
 
         } catch (RuntimeException e) {
             log.error("findByAll: " + categories);

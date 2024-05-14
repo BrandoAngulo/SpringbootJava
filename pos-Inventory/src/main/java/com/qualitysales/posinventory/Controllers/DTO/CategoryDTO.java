@@ -18,5 +18,4 @@ public class CategoryDTO {
     private Integer id;
     @NotBlank(message = "la descripcion de categoria no debe ser vacia")
     private String descripcion;
-    //private List<Product> productList = new ArrayList<>();
 }
