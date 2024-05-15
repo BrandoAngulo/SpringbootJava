@@ -16,16 +16,15 @@ import java.util.logging.Logger;
 @AllArgsConstructor
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
-
     private CategoryRepository categoryRepository;
+    private static final  String NF = "id not found";
 
     @Override
     public List<CategoryDTO> findAll() {
-        System.out.println("categories = antes de");
         List<Category> categories = categoryRepository.findAll();
         List<CategoryDTO> categoryDTOList = CategoryMapper.MAPPER.toCategoryDtos(categories);
         try {
-            log.info("findByAll: " + categories);
+            log.info("findByAll: {}", categories);
             return categoryDTOList;
 
         } catch (RuntimeException e) {
@@ -37,40 +36,34 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO findById(Integer id) {
-        Logger logger = Logger.getLogger(getClass().getName());
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException(NF));
+        CategoryDTO categoryDTO = CategoryMapper.MAPPER.toCategoryDto(category);
         try {
-            System.out.println("category = " + category);
-            log.info("findById: " + category);
-            return CategoryDTO.builder()
-                    .id(category.getId())
-                    .descripcion(category.getDescription())
-                    .build();
+            log.info("findById: {}", category);
+            return categoryDTO;
 
         } catch (RuntimeException e) {
 
-            logger.info("findById" + category);
             log.error("findById: " + category);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
 
     @Override
     public CategoryDTO save(Category category) {
+
         try {
-
-           CategoryDTO categoryDTO =  CategoryDTO.builder()
-                    .descripcion(category.getDescription())
-                    .build();
+            CategoryDTO saveCategoryDTO = CategoryMapper.MAPPER.toCategoryDto(category);
            categoryRepository.save(category);
-           return categoryDTO;
+           log.info("save: {}", category);
+           return saveCategoryDTO;
 
-        } catch (RuntimeException e) {
-            log.error("save: " + category);
-            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            log.error("save: {}", category);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -78,17 +71,17 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception {
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException(NF));
 
         try {
-            category.setDescription(categoryDTO.getDescripcion());
+            category.setDescription(categoryDTO.getDescription());
             categoryRepository.save(category);
             log.info("update: " + category);
             return categoryDTO;
 
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             log.error("update" + category);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
 
         }
     }
@@ -96,15 +89,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteById(Integer id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException(NF));
 
         try {
             log.info("deleteById/eliminado correctamente" + category);
             categoryRepository.deleteById(id);
 
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             log.error("deleteById" + category);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
 
     }

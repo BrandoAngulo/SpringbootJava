@@ -18,7 +18,7 @@ public class CategoryController {
 
     private final CategoryServiceImpl categoryService;
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/find-by/{id}")
     public ResponseEntity<CategoryDTO> findById(@Valid @PathVariable Integer id)  {
         return ResponseEntity.ok(categoryService.findById(id));
     }
