@@ -1,4 +1,4 @@
-package com.qualitysales.posinventory.service.impl;
+package com.qualitysales.posinventory.service;
 
 import com.qualitysales.posinventory.Controllers.DTO.CityDTO;
 import com.qualitysales.posinventory.model.City;

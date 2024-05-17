@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface CategoryService {
     List<CategoryDTO> findAll();
-    CategoryDTO findById(Integer id) throws Exception;
-    CategoryDTO save(Category category) throws URISyntaxException;
 
-    CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception;
+    CategoryDTO findById(Integer id);
 
-    void deleteById(Integer id) throws Exception;
+    CategoryDTO save(Category category);
+
+    CategoryDTO update(Integer id, CategoryDTO categoryDTO);
+
+    void deleteById(Integer id);
 
 }

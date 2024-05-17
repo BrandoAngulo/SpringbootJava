@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 @AllArgsConstructor
@@ -37,13 +36,13 @@ public class CategoryController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO) throws Exception {
+    public ResponseEntity<CategoryDTO> update(@PathVariable Integer id, @RequestBody CategoryDTO categoryDTO)  {
 
         return ResponseEntity.ok().body(categoryService.update(id, categoryDTO));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Integer id) throws Exception {
+    public ResponseEntity<String> delete(@PathVariable Integer id) {
 
         categoryService.deleteById(id);
 

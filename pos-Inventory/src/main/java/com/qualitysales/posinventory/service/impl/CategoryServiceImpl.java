@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> findAll() {
         List<Category> categories = categoryRepository.findAll();
-        List<CategoryDTO> categoryDTOList = CategoryMapper.MAPPER.toCategoryDtos(categories);
+        List<CategoryDTO> categoryDTOList = CategoryMapper.MAPPER.toCategoryDTOS(categories);
         try {
             log.info("findByAll: {}", categories);
             return categoryDTOList;
@@ -39,7 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(NF));
-        CategoryDTO categoryDTO = CategoryMapper.MAPPER.toCategoryDto(category);
+        CategoryDTO categoryDTO = CategoryMapper.MAPPER.toCategoryDTO(category);
         try {
             log.info("findById: {}", category);
             return categoryDTO;
@@ -54,9 +53,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO save(Category category) {
-
+        if (category.getDescription().isBlank()) {
+            throw new IllegalArgumentException("Description is blank");
+        }
         try {
-            CategoryDTO saveCategoryDTO = CategoryMapper.MAPPER.toCategoryDto(category);
+            CategoryDTO saveCategoryDTO = CategoryMapper.MAPPER.toCategoryDTO(category);
            categoryRepository.save(category);
            log.info("save: {}", category);
            return saveCategoryDTO;
@@ -68,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception {
+    public CategoryDTO update(Integer id, CategoryDTO categoryDTO) {
 
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(NF));
@@ -76,11 +77,11 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             category.setDescription(categoryDTO.getDescription());
             categoryRepository.save(category);
-            log.info("update: " + category);
+            log.info("update: {}", category);
             return categoryDTO;
 
         } catch (IllegalArgumentException e) {
-            log.error("update" + category);
+            log.error("update{}", category);
             throw new IllegalArgumentException(e);
 
         }
@@ -92,11 +93,11 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new IllegalArgumentException(NF));
 
         try {
-            log.info("deleteById/eliminado correctamente" + category);
+            log.info("deleteById/ Success{}", category);
             categoryRepository.deleteById(id);
 
         } catch (IllegalArgumentException e) {
-            log.error("deleteById" + category);
+            log.error("deleteById/throw{}", category);
             throw new IllegalArgumentException(e);
         }
 

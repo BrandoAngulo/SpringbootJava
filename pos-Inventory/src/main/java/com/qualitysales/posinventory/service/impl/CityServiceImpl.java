@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class CityServiceImplements implements CityService {
+public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
 
@@ -93,7 +93,7 @@ public class CityServiceImplements implements CityService {
             cityRepository.delete(findId);
         } catch (Exception e) {
             log.error("deleteCity throw: {}", findId);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 }
