@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Table;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,9 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String lasName;
     private String docTipe;
     private String document;
