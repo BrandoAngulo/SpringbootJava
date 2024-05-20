@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @ToString
 public class ClientDTO {
-    private int id;
+    private Integer id;
     private String name;
     private String lastName;
     private String document;

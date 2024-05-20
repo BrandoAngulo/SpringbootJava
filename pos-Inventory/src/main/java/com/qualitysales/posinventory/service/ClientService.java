@@ -2,6 +2,7 @@ package com.qualitysales.posinventory.service;
 
 import com.qualitysales.posinventory.Controllers.DTO.ClientDTO;
 import com.qualitysales.posinventory.model.Client;
+import com.qualitysales.posinventory.utils.HttpClientUtil;
 
 import java.util.List;
 

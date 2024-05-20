@@ -32,7 +32,7 @@ public class Client {
     @NotBlank
     private String name;
     @NotBlank
-    private String lasName;
+    private String lastName;
     private String docTipe;
     private String document;
     @ManyToOne

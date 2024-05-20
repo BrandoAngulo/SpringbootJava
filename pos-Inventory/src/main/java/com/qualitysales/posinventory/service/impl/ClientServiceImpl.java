@@ -5,7 +5,9 @@ import com.qualitysales.posinventory.mapper.ClientMapper;
 import com.qualitysales.posinventory.model.Client;
 import com.qualitysales.posinventory.repository.ClientRepository;
 import com.qualitysales.posinventory.service.ClientService;
+import com.qualitysales.posinventory.utils.HttpClientUtil;
 import lombok.AllArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final HttpClientUtil httpClientUtil;
+
+    @Value("${external.service.url}")
+    private String externalServiceUrl;
 
     @Override
     public ClientDTO getClient(Integer id) {
@@ -49,10 +55,17 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientDTO> getClientByName(String firstName, String lastName) {
-        List<Client> clients = clientRepository.findByNameOrLasNameAfter(firstName, lastName);
+        List<Client> clients = clientRepository.findByNameOrLastName(firstName, lastName);
         List<ClientDTO> clientDTOS = ClientMapper.MAPPER.toClients(clients);
+        if (clientDTOS.isEmpty()) {
+            log.error("getClientByName Error no client exist {}", clientDTOS);
+            throw new IllegalArgumentException("No Client found with name or lastname = " + firstName + " " + lastName);
+        }
         try {
             log.info("getClientByName ok: {}", clientDTOS);
+            // Construir la URL base externa
+            String response = httpClientUtil.sendGetRequest(externalServiceUrl, firstName, lastName);
+            log.info("Response from external service ok: {}", response);
             return clientDTOS;
         } catch (Exception e) {
             log.error("getClientByName Error: {}", e.getMessage());
@@ -64,8 +77,8 @@ public class ClientServiceImpl implements ClientService {
     public ClientDTO addClient(Client client) {
         try {
             ClientDTO clientDTO = ClientMapper.MAPPER.toClient(client);
-            log.info("addClient ok: {}", clientDTO);
             clientRepository.save(client);
+            log.info("addClient ok: {}", client);
             return clientDTO;
         } catch (Exception e) {
             log.error("addClient Error: {}", e.getMessage());
@@ -80,7 +93,7 @@ public class ClientServiceImpl implements ClientService {
         try {
 
             if (clientDTO.getId() == id) {
-                clientDTO.setLastName(client.getLasName());
+                clientDTO.setLastName(client.getLastName());
                 clientDTO.setDocument(client.getDocument());
                 clientDTO.setCity(client.getCity());
                 clientDTO.setResidence(client.getResidence());
@@ -110,4 +123,5 @@ public class ClientServiceImpl implements ClientService {
         }
 
     }
+
 }

@@ -2,7 +2,6 @@ package com.qualitysales.posinventory.Controllers;
 
 import com.qualitysales.posinventory.Controllers.DTO.ClientDTO;
 import com.qualitysales.posinventory.model.Client;
-import com.qualitysales.posinventory.service.ClientService;
 import com.qualitysales.posinventory.service.impl.ClientServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
