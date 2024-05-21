@@ -1,7 +1,6 @@
 package com.qualitysales.posinventory.Controllers.DTO;
 
 import jakarta.validation.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class SupplierDTO {
+public class UserDTO {
+
     private Integer id;
-    @NotBlank(message = "el nombre de supplier no debe ser vacia")
+    @NotBlank
     private String name;
-    @NotBlank
-    private String phone;
-    @NotBlank
-    private String nit;
+    private String lastName;
+    private String code;
+    private String email;
+    private String state;
+
 }

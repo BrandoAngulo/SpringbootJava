@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
     List<ProductDTO> findByAll();
-    ProductDTO findById(Integer id) throws Exception;
+    ProductDTO findById(Integer id);
     List<Product> findByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
     ProductDTO save(Product product);
     Product update(Integer id, ProductDTO productDTO);

@@ -19,7 +19,8 @@ import java.util.List;
 @RequestMapping("/api/posinventory/product")
 public class ProductController {
 
-    ProductServiceImpl productService;
+    private final ProductServiceImpl productService;
+
     public ProductController(ProductServiceImpl productService) {
         this.productService = productService;
     }
@@ -36,10 +37,11 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<ProductDTO> save(@Valid @RequestBody Product product ) {
+    public ResponseEntity<ProductDTO> save(@Valid @RequestBody Product product) {
 
         return ResponseEntity.ok(productService.save(product));
     }
+
     @GetMapping("/price")
     public ResponseEntity<?> findByPriceRange(@RequestParam BigDecimal minPrice,
                                               @RequestParam BigDecimal maxPrice) {

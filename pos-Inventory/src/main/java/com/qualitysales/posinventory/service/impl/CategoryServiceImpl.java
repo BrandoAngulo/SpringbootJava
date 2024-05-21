@@ -1,6 +1,7 @@
 package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
+import com.qualitysales.posinventory.mapper.CategoryMapper;
 import com.qualitysales.posinventory.model.Category;
 import com.qualitysales.posinventory.repository.CategoryRepository;
 import com.qualitysales.posinventory.service.CategoryService;
@@ -9,26 +10,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
-
     private CategoryRepository categoryRepository;
+    private static final  String NF = "id not found";
 
     @Override
     public List<CategoryDTO> findAll() {
-        System.out.println("categories = antes de");
         List<Category> categories = categoryRepository.findAll();
+        List<CategoryDTO> categoryDTOList = CategoryMapper.MAPPER.toCategoryDTOS(categories);
         try {
-            log.info("findByAll: " + categories);
-            return categories.stream().map(category -> CategoryDTO.builder()
-                    .id(category.getId())
-                    .descripcion(category.getDescription())
-                    .build()).toList();
-
+            log.info("findByAll: {}", categories);
+            return categoryDTOList;
 
         } catch (RuntimeException e) {
             log.error("findByAll: " + categories);
@@ -39,58 +35,54 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO findById(Integer id) {
-        Logger logger = Logger.getLogger(getClass().getName());
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException(NF));
+        CategoryDTO categoryDTO = CategoryMapper.MAPPER.toCategoryDTO(category);
         try {
-            System.out.println("category = " + category);
-            log.info("findById: " + category);
-            return CategoryDTO.builder()
-                    .id(category.getId())
-                    .descripcion(category.getDescription())
-                    .build();
+            log.info("findById: {}", category);
+            return categoryDTO;
 
         } catch (RuntimeException e) {
 
-            logger.info("findById" + category);
             log.error("findById: " + category);
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
 
     @Override
     public CategoryDTO save(Category category) {
+        if (category.getDescription().isBlank()) {
+            throw new IllegalArgumentException("Description is blank");
+        }
         try {
-
-           CategoryDTO categoryDTO =  CategoryDTO.builder()
-                    .descripcion(category.getDescription())
-                    .build();
+            CategoryDTO saveCategoryDTO = CategoryMapper.MAPPER.toCategoryDTO(category);
            categoryRepository.save(category);
-           return categoryDTO;
+           log.info("save: {}", category);
+           return saveCategoryDTO;
 
-        } catch (RuntimeException e) {
-            log.error("save: " + category);
-            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            log.error("save: {}", category);
+            throw new IllegalArgumentException(e);
         }
     }
 
     @Override
-    public CategoryDTO update(Integer id, CategoryDTO categoryDTO) throws Exception {
+    public CategoryDTO update(Integer id, CategoryDTO categoryDTO) {
 
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException(NF));
 
         try {
-            category.setDescription(categoryDTO.getDescripcion());
+            category.setDescription(categoryDTO.getDescription());
             categoryRepository.save(category);
-            log.info("update: " + category);
+            log.info("update: {}", category);
             return categoryDTO;
 
-        } catch (RuntimeException e) {
-            log.error("update" + category);
-            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            log.error("update{}", category);
+            throw new IllegalArgumentException(e);
 
         }
     }
@@ -98,15 +90,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteById(Integer id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Error id no encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException(NF));
 
         try {
-            log.info("deleteById/eliminado correctamente" + category);
+            log.info("deleteById/ Success{}", category);
             categoryRepository.deleteById(id);
 
-        } catch (RuntimeException e) {
-            log.error("deleteById" + category);
-            throw new RuntimeException(e);
+        } catch (IllegalArgumentException e) {
+            log.error("deleteById/throw{}", category);
+            throw new IllegalArgumentException(e);
         }
 
     }
