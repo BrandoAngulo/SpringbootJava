@@ -21,9 +21,6 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository clientRepository;
     private final HttpClientUtil httpClientUtil;
 
-    @Value("${external.service.url}")
-    private String externalServiceUrl;
-
     @Override
     public ClientDTO getClient(Integer id) {
         Client client = clientRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client ID"));
@@ -63,9 +60,6 @@ public class ClientServiceImpl implements ClientService {
         }
         try {
             log.info("getClientByName ok: {}", clientDTOS);
-            // Construir la URL base externa
-            String response = httpClientUtil.sendGetRequest(externalServiceUrl, firstName, lastName);
-            log.info("Response from external service ok: {}", response);
             return clientDTOS;
         } catch (Exception e) {
             log.error("getClientByName Error: {}", e.getMessage());
