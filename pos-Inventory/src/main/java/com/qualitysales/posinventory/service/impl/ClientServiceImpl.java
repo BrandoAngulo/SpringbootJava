@@ -86,7 +86,7 @@ public class ClientServiceImpl implements ClientService {
         ClientDTO clientDTO = ClientMapper.MAPPER.toClient(idClient);
         try {
 
-            if (clientDTO.getId() == id) {
+            if (clientDTO.getId().equals(id)) {
                 clientDTO.setLastName(client.getLastName());
                 clientDTO.setDocument(client.getDocument());
                 clientDTO.setCity(client.getCity());
