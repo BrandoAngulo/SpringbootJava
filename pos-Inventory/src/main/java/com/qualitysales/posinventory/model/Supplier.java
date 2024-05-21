@@ -2,10 +2,7 @@ package com.qualitysales.posinventory.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +13,9 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "proveedor")
-public class Supplier {
+@ToString
+public class
+Supplier {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
@@ -26,8 +25,5 @@ public class Supplier {
     private String phone;
     @Column
     private String nit;
-    @OneToMany(mappedBy = "supplier", cascade = CascadeType.ALL,fetch = FetchType.LAZY, orphanRemoval = true)
-    @JsonIgnore
-    private List<Product> productList = new ArrayList<>();
 
 }

@@ -1,89 +1,105 @@
 package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.CategoryDTO;
+import com.qualitysales.posinventory.mapper.CategoryMapper;
 import com.qualitysales.posinventory.model.Category;
-import com.qualitysales.posinventory.persistence.ICategoryDAO;
 import com.qualitysales.posinventory.repository.CategoryRepository;
-import com.qualitysales.posinventory.service.ICategoryService;
+import com.qualitysales.posinventory.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class CategoryServiceImpl implements ICategoryService {
-    @Autowired
-    private ICategoryDAO categoryDAO;
-    @Autowired
+@Slf4j
+public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
+    private static final  String NF = "id not found";
 
     @Override
-    public List<Category> findByAll() {
+    public List<CategoryDTO> findAll() {
+        List<Category> categories = categoryRepository.findAll();
+        List<CategoryDTO> categoryDTOList = CategoryMapper.MAPPER.toCategoryDTOS(categories);
         try {
+            log.info("findByAll: {}", categories);
+            return categoryDTOList;
 
-            return (List<Category>) categoryRepository.findAll();
-
-        } catch (Exception e) {
-
-            throw new RuntimeException(e);
-
-        }
-
-    }
-
-    @Override
-    public CategoryDTO findById(Integer id) throws Exception {
-
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isPresent()) {
-            Category category = categoryOptional.get();
-            return CategoryDTO.builder()
-                    .id(category.getId())
-                    .descripcion(category.getDescription())
-                    .build();
+        } catch (RuntimeException e) {
+            log.error("findByAll: " + categories);
+            throw new IllegalArgumentException(e);
 
         }
-        throw new Exception("La categoria no existe");
+    }
+
+    @Override
+    public CategoryDTO findById(Integer id) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(NF));
+        CategoryDTO categoryDTO = CategoryMapper.MAPPER.toCategoryDTO(category);
+        try {
+            log.info("findById: {}", category);
+            return categoryDTO;
+
+        } catch (RuntimeException e) {
+
+            log.error("findById: " + category);
+            throw new IllegalArgumentException(e);
+        }
     }
 
 
     @Override
-    public Category save(CategoryDTO categoryDTO) throws URISyntaxException {
+    public CategoryDTO save(Category category) {
+        if (category.getDescription().isBlank()) {
+            throw new IllegalArgumentException("Description is blank");
+        }
+        try {
+            CategoryDTO saveCategoryDTO = CategoryMapper.MAPPER.toCategoryDTO(category);
+           categoryRepository.save(category);
+           log.info("save: {}", category);
+           return saveCategoryDTO;
 
-        return categoryRepository.save(Category.builder()
-                .description(categoryDTO.getDescripcion())
-                .build());
+        } catch (IllegalArgumentException e) {
+            log.error("save: {}", category);
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
-    public Category update(Integer id, CategoryDTO categoryDTO) throws Exception {
+    public CategoryDTO update(Integer id, CategoryDTO categoryDTO) {
 
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isPresent()) {
-            Category category = categoryOptional.get();
-            category.setDescription(categoryDTO.getDescripcion());
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(NF));
+
+        try {
+            category.setDescription(categoryDTO.getDescription());
             categoryRepository.save(category);
-            return category;
+            log.info("update: {}", category);
+            return categoryDTO;
+
+        } catch (IllegalArgumentException e) {
+            log.error("update{}", category);
+            throw new IllegalArgumentException(e);
+
         }
-        throw new Exception("Categoria no existe");
     }
 
     @Override
-    public void deleteById(Integer id) throws Exception {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
+    public void deleteById(Integer id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(NF));
 
-        if (categoryOptional != null && categoryOptional.isPresent()) {
+        try {
+            log.info("deleteById/ Success{}", category);
             categoryRepository.deleteById(id);
-            return;
-        }
 
-        throw new Exception("Category not found");
+        } catch (IllegalArgumentException e) {
+            log.error("deleteById/throw{}", category);
+            throw new IllegalArgumentException(e);
+        }
 
     }
 }

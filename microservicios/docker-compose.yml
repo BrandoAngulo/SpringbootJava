@@ -1,24 +1,77 @@
 #Instruccion para crear el contenedor
 #Despues de configurar las instrucciones del contenedor
 #escribir el comando en la terminal y dentro del proyecto donde este el archivo docker-compose.yml (docker compose up) para levantar el contenedor
-#version: '3.2'
-#services:
-#  db:
-#    container_name: mysql_db
-#    image: mysql:8.2.0
-#    volumes:
-#      - my-db-mysql:/var/lib/mysql
-#    restart: always
-#    ports:
-#      - '3306:3306'
-#    expose:
-#      - '3306'
-#    environment:
-#      MYSQL_USER: 'admin'
-#      MYSQL_PASSWORD: 'admin'
-#      MYSQL_ROOT_PASSWORD: 'admin'
-#volumes:
-#  my-db-mysql:
+version: '3.1'
+services:
+  db-mysql:
+    container_name: cliente-servicio
+    image: mysql:8.2.0
+    volumes:
+      - my-db-cliente:/var/lib/mysql
+    restart: always
+    ports:
+      - '3307:3306'
+    expose:
+      - '3306'
+    environment:
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: 'admin'
+      MYSQL_ROOT_PASSWORD: 'admin'
+  db-psql:
+    container_name: credito-servicio
+    image: postgres:alpine3.14
+    volumes:
+      - /var/lib/postgresql/data
+    restart: always
+    ports:
+      - '5434:5432'
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+  db-keycloak:
+    container_name: db-keycloak
+    image: postgres:alpine3.16
+    volumes:
+      - /var/lib/postgresql/data
+    restart: unless-stopped
+    ports:
+      - '5435:5432'
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_DB: 'dbkeycloak'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+  ## Configuracion para el servidor keycloak
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:24.0.1
+    volumes:
+      - my-db-keycloak:/var/lib/postgresql/data
+    command:
+      - 'start-dev'
+    ports:
+      - '8181:8080'
+    expose:
+      - 8080
+    depends_on:
+      - db-keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADOR: db-keycloak
+      DB_DATABASE: db-keycloak
+      DB_PORT: 5435
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HHTP_PORT: 8181
+volumes:
+  my-db-cliente:
+  my-db-credito:
+  my-db-keycloak:
 
 #version: '3.1'
 #services:
@@ -40,21 +93,4 @@
 
 
 
-version: '3.2'
-services:
-  db:
-    container_name: credito-servicio
-    image: postgres:9.6-alpine3.15
-    volumes:
-      - /var/lib/postgresql/data
-    restart: always
-    ports:
-      - '5434:5432'
-    expose:
-      - '5432'
-    environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
-volumes:
-  my-db-credito:
 
