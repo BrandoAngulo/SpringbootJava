@@ -1,29 +1,31 @@
 package com.qualitysales.posinventory.service.impl;
 
+import com.qualitysales.posinventory.Controllers.DTO.ClientDTO;
 import com.qualitysales.posinventory.Controllers.DTO.InvoiceDTO;
+import com.qualitysales.posinventory.mapper.ClientMapper;
 import com.qualitysales.posinventory.mapper.InvoiceMapper;
+import com.qualitysales.posinventory.model.Client;
 import com.qualitysales.posinventory.model.Invoice;
+import com.qualitysales.posinventory.repository.ClientRepository;
 import com.qualitysales.posinventory.repository.InvoiceRepository;
 import com.qualitysales.posinventory.service.InvoiceService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 @Slf4j
-public class InvoiceImpl implements InvoiceService {
+public class InvoiceServiceImpl implements InvoiceService {
     private final InvoiceRepository invoiceRepository;
-    private final InvoiceMapper invoiceMapper;
+    private final ClientRepository clientRepository;
 
     @Override
     public List<InvoiceDTO> getInvoices() {
         List<Invoice> invoices = invoiceRepository.findAll();
-        List<InvoiceDTO> invoiceDTOList = invoiceMapper.toInvoiceList(invoices);
+        List<InvoiceDTO> invoiceDTOList = InvoiceMapper.MAPPER.toInvoiceList(invoices);
         try {
             log.info("getInvoices ok: {}", invoiceDTOList.toString());
             return invoiceDTOList;
@@ -36,22 +38,21 @@ public class InvoiceImpl implements InvoiceService {
     @Override
     public InvoiceDTO getInvoice(Integer id) {
         Invoice invoice = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
-        InvoiceDTO invoiceDTO = invoiceMapper.toInvoice(invoice);
+        InvoiceDTO invoiceDTO = InvoiceMapper.MAPPER.toInvoice(invoice);
         try {
             log.info("getInvoice ok: {}", invoiceDTO.toString());
             return invoiceDTO;
         } catch (Exception e) {
             log.error("getInvoice error: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
     @Override
     public InvoiceDTO saveInvoice(Invoice invoice) {
 
-
         try {
-            InvoiceDTO invoiceDTO = invoiceMapper.toInvoice(invoice);
+            InvoiceDTO invoiceDTO = InvoiceMapper.MAPPER.toInvoice(invoice);
             invoiceRepository.save(invoice);
             log.info("saveInvoice ok: {}", invoiceDTO.toString());
             return invoiceDTO;
@@ -64,10 +65,11 @@ public class InvoiceImpl implements InvoiceService {
     @Override
     public InvoiceDTO updateInvoice(Integer id, Invoice invoice) {
         Invoice invoiceId = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
-        InvoiceDTO invoiceDTO = invoiceMapper.toInvoice(invoiceId);
+        InvoiceDTO invoiceDTO = InvoiceMapper.MAPPER.toInvoice(invoiceId);
         try {
             if (invoiceId.getId().equals(id)){
                 log.info("updateInvoice ok: {}", invoiceDTO.toString());
+                invoiceDTO.setInvoiceCode(invoice.getInvoiceCode());
                 invoiceDTO.setClient(invoice.getClient());
                 invoiceDTO.setDate(invoice.getDate());
                 invoiceDTO.setTotal(invoice.getTotal());
@@ -86,14 +88,23 @@ public class InvoiceImpl implements InvoiceService {
     }
 
     @Override
-    public void deleteInvoice(Integer id) {
-            invoiceRepository.deleteById(id);
+    public InvoiceDTO anularInvoice(Integer id, Invoice invoice) {
+            Invoice searchInvoice = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
+            InvoiceDTO invoiceDTO = InvoiceMapper.MAPPER.toInvoice(searchInvoice);
 
         try {
-            log.info("deleteInvoice ok: {}", id);
-            invoiceRepository.deleteById(id);
+            if (invoice.getId().equals(id)){
+                String active = "I";
+                log.info("anularInvoice ok: {}", invoiceDTO.toString());
+                invoiceDTO.setStatus(active);
+                invoiceRepository.save(searchInvoice);
+            }else {
+                log.info("anularInvoice error: {}", invoiceDTO.toString());
+                throw new IllegalArgumentException("Invoice id not match");
+            }
+            return invoiceDTO;
         } catch (Exception e) {
-            log.error("deleteInvoice error: {}", e.getMessage());
+            log.error("anularInvoice error: {}", e.getMessage());
             throw new IllegalArgumentException(e);
         }
 
@@ -101,6 +112,24 @@ public class InvoiceImpl implements InvoiceService {
 
     @Override
     public List<InvoiceDTO> getInvoicesByCustomerId(Integer customerId) {
-        return List.of();
+        Invoice invoice = invoiceRepository.findById(customerId).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
+        InvoiceDTO invoiceDTO = InvoiceMapper.MAPPER.toInvoice(invoice);
+        Client client = clientRepository.findById(customerId).orElseThrow(() -> new IllegalArgumentException("Client not found"));
+        ClientDTO clientDTO = ClientMapper.MAPPER.toClient(client);
+        List<Invoice> invoiceList = invoiceRepository.findAll();
+        List<InvoiceDTO> invoiceDTOList = InvoiceMapper.MAPPER.toInvoiceList(invoiceList);
+        try {
+            if(customerId.equals(clientDTO.getId())){
+                log.info("getInvoicesByCustomerId ok: {}", invoiceDTO.toString());
+                invoiceRepository.findInvoiceByClientId(customerId);
+                return invoiceDTOList;
+            }else {
+                log.info("getInvoicesByCustomerId error: {}", invoiceDTO.toString());
+                throw new IllegalArgumentException("Customer id not match");
+            }
+        } catch (Exception e) {
+            log.error("getInvoicesByCustomerId error: {}", e.getMessage());
+            throw new IllegalArgumentException(e);
+        }
     }
 }

@@ -20,4 +20,5 @@ public class InvoiceDTO {
     private String date;
     private BigDecimal total;
     private ItemInvoice itemInvoice;
+    private String status;
 }

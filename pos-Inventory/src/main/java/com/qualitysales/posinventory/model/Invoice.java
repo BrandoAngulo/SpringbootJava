@@ -36,4 +36,5 @@ public class Invoice {
     private BigDecimal total;
     @ManyToOne
     private ItemInvoice itemInvoice;
+    private String status;
 }
