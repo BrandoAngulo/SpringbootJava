@@ -3,6 +3,7 @@ package com.qualitysales.posinventory.Controllers;
 import com.qualitysales.posinventory.Controllers.DTO.ClientDTO;
 import com.qualitysales.posinventory.model.Client;
 import com.qualitysales.posinventory.service.impl.ClientServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,7 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posinventory/client")
+@Slf4j
 public class ClientController {
+
     private final ClientServiceImpl clientService;
 
     public ClientController(ClientServiceImpl clientService) {
@@ -40,8 +43,9 @@ public class ClientController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable Integer id, @RequestBody Client client) {
-        return ResponseEntity.ok().body(clientService.updateClient(id, client));
+    public ResponseEntity<Client> updateClient(@PathVariable Integer id, @RequestBody ClientDTO clientDTO) {
+        log.info("Received update request for client ID: {}, with data: {}", id, clientDTO);
+        return ResponseEntity.ok(clientService.updateClient(id, clientDTO));
     }
 
     @DeleteMapping("/delete/{id}")

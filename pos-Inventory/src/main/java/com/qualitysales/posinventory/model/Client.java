@@ -1,25 +1,13 @@
 package com.qualitysales.posinventory.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @ToString
 @Builder
 @Entity
@@ -35,7 +23,7 @@ public class Client {
     private String lastName;
     private String docTipe;
     private String document;
-    @ManyToOne
+    @ManyToOne()
     private City city;
     private String residence;
     private String cellPhone;

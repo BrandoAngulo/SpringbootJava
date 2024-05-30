@@ -11,6 +11,6 @@ public interface ClientService {
     List<ClientDTO> getAllClients();
     List<ClientDTO> getClientByName(String firstName, String lastName);
     ClientDTO addClient(Client client);
-    ClientDTO updateClient(Integer id, Client client);
+    Client updateClient(Integer id, ClientDTO clientDTO);
     void deleteClient(Integer id);
 }

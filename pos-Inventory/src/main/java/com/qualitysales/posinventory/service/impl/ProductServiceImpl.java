@@ -121,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Override
     public Product update(Integer id, ProductDTO productDTO) {
         Product product = productRepository.findById(id).orElseThrow
                 (() -> new RuntimeException("Product not found"));

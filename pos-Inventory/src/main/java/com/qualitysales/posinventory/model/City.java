@@ -1,33 +1,25 @@
 package com.qualitysales.posinventory.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.Builder;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
-@ToString
-@Builder
+@Data
 @Entity
+@Builder
 @Table(name = "ciudad")
 public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @Column(name = "id_ciudad")
     private Integer id;
-    @NotBlank(message = "el campo no puede estar vacio")
+    //@NotBlank(message = "el campo no puede estar vacio")
+    @Column(name = "codigo")
     private String code;
-    @NotBlank(message = "el campo no puede estar vacio")
+    //@NotBlank(message = "el campo no puede estar vacio")
+    @Column(name = "nombre")
     private String name;
 }

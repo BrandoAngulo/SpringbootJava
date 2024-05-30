@@ -2,24 +2,33 @@ package com.qualitysales.posinventory.service.impl;
 
 import com.qualitysales.posinventory.Controllers.DTO.ClientDTO;
 import com.qualitysales.posinventory.mapper.ClientMapper;
+import com.qualitysales.posinventory.model.City;
 import com.qualitysales.posinventory.model.Client;
+import com.qualitysales.posinventory.repository.CityRepository;
 import com.qualitysales.posinventory.repository.ClientRepository;
 import com.qualitysales.posinventory.service.ClientService;
 import com.qualitysales.posinventory.utils.HttpClientUtil;
-import lombok.AllArgsConstructor;
-import lombok.Value;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@AllArgsConstructor
+@Transactional
 @Service
 @Slf4j
 public class ClientServiceImpl implements ClientService {
 
-    private final ClientRepository clientRepository;
     private final HttpClientUtil httpClientUtil;
+
+    public ClientServiceImpl(ClientRepository clientRepository, HttpClientUtil httpClientUtil, CityRepository cityRepository) {
+        this.clientRepository = clientRepository;
+        this.httpClientUtil = httpClientUtil;
+        this.cityRepository = cityRepository;
+    }
+
+    private final ClientRepository clientRepository;
+    private final CityRepository cityRepository;
 
     @Override
     public ClientDTO getClient(Integer id) {
@@ -81,23 +90,26 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public ClientDTO updateClient(Integer id, Client client) {
+    public Client updateClient(Integer id, ClientDTO clientDTO) {
         Client idClient = clientRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid client ID"));
-        ClientDTO clientDTO = ClientMapper.MAPPER.toClient(idClient);
+        log.info("updateClient idClient ok: {}", idClient);
+        City city = cityRepository.findById(idClient.getCity().getId()).orElseThrow(() -> new IllegalArgumentException("Invalid city ID"));
+        log.info("updateClient city ok: {}", city);
         try {
+            idClient.setName(clientDTO.getName());
+            idClient.setLastName(clientDTO.getLastName());
+            idClient.setDocument(clientDTO.getDocument());
+            idClient.setCity(city);
+            idClient.setResidence(clientDTO.getResidence());
+            idClient.setCellPhone(clientDTO.getCellPhone());
+            idClient.setEmail(clientDTO.getEmail());
+            idClient.setEstate(clientDTO.getEstate());
 
-            if (clientDTO.getId().equals(id)) {
-                clientDTO.setLastName(client.getLastName());
-                clientDTO.setDocument(client.getDocument());
-                clientDTO.setCity(client.getCity());
-                clientDTO.setResidence(client.getResidence());
-                clientDTO.setCellPhone(client.getCellPhone());
-                clientDTO.setEmail(client.getEmail());
-                clientDTO.setEstate(client.getEstate());
-                clientRepository.save(idClient);
-                log.info("updateClient ok: {}", idClient);
-            }
-            return clientDTO;
+            Client updatedClient = clientRepository.save(idClient);
+
+            log.info("updateClient ok: {}", clientDTO);
+
+            return updatedClient;
 
         } catch (Exception e) {
             log.error("updateClient Error: {}", e.getMessage());

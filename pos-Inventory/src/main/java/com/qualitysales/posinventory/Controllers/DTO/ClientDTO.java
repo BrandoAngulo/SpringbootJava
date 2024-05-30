@@ -1,13 +1,13 @@
 package com.qualitysales.posinventory.Controllers.DTO;
 
 import com.qualitysales.posinventory.model.City;
+import jakarta.persistence.Column;
 import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-@ToString
 public class ClientDTO {
     private Integer id;
     private String name;

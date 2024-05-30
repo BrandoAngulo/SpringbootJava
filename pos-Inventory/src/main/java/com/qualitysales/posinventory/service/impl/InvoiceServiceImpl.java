@@ -63,23 +63,24 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public InvoiceDTO updateInvoice(Integer id, Invoice invoice) {
+    public Invoice updateInvoice(Integer id, InvoiceDTO invoiceDTO) {
+        System.out.println("invoice = " + invoiceDTO);
         Invoice invoiceId = invoiceRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invoice not found"));
-        InvoiceDTO invoiceDTO = InvoiceMapper.MAPPER.toInvoice(invoiceId);
         try {
             if (invoiceId.getId().equals(id)){
-                log.info("updateInvoice ok: {}", invoiceDTO.toString());
-                invoiceDTO.setInvoiceCode(invoice.getInvoiceCode());
-                invoiceDTO.setClient(invoice.getClient());
-                invoiceDTO.setDate(invoice.getDate());
-                invoiceDTO.setTotal(invoice.getTotal());
-                invoiceDTO.setItemInvoice(invoice.getItemInvoice());
-                invoiceRepository.save(invoice);
+                log.info("updateInvoice ok: {}", invoiceDTO);
+                invoiceId.setInvoiceCode(invoiceDTO.getInvoiceCode());
+                invoiceId.setClient(invoiceDTO.getClient());
+                invoiceId.setDate(invoiceDTO.getDate());
+                invoiceId.setTotal(invoiceDTO.getTotal());
+                invoiceId.setItemInvoice(invoiceDTO.getItemInvoice());
+                invoiceId.setStatus(invoiceDTO.getStatus());
+                invoiceRepository.save(invoiceId);
             }else {
-                log.info("updateInvoice error: {}", invoiceDTO.toString());
+                log.info("updateInvoice error: {}", invoiceDTO);
                 throw new IllegalArgumentException("Invoice id not match");
             }
-            return invoiceDTO;
+            return invoiceId;
         } catch (Exception e) {
             log.error("updateInvoice error: {}", e.getMessage());
             throw new IllegalArgumentException(e);

@@ -9,7 +9,7 @@ public interface InvoiceService {
     List<InvoiceDTO> getInvoices();
     InvoiceDTO getInvoice(Integer id);
     InvoiceDTO saveInvoice(Invoice invoice);
-    InvoiceDTO updateInvoice(Integer id, Invoice invoice);
+    Invoice updateInvoice(Integer id, InvoiceDTO invoiceDTO);
     InvoiceDTO anularInvoice(Integer id, Invoice invoice);
     List<InvoiceDTO> getInvoicesByCustomerId(Integer customerId);
 
