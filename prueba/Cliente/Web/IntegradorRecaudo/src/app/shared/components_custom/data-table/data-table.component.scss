@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+  // background-color: aqua !important;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+section {
+  display: table;
+}
+
+.material-icons {
+  font-size: 18px !important;
+  display: block !important;
+  margin-top: -2px !important;
+}
+
+.mat-mini-fab {
+  width: 30px !important;
+  height: 30px !important;
+  margin-left: 0.3rem !important;
+}
+
+.acciones {
+  height: 56px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.example-flex-container {
+  display: flex;
+  justify-content: center;
+}
+
+td {
+  width: 10%;
+}

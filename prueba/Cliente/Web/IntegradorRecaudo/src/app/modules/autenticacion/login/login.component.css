@@ -1,0 +1,21 @@
+.main-content {
+  margin-top: 5%;
+  padding: 30px 15px;
+  min-height: calc(100vh - 123px);
+}
+
+.input-form{
+    margin-left: 4px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.campo {
+  width: 16vw;
+}
+
+.text-error{
+    margin-top: 0.5px;
+}
+

@@ -1,0 +1,104 @@
+<app-spiner></app-spiner>
+<div class="logo">
+  <a href="https://www.creative-tim.com" class="simple-text">
+    <div class="logo-img">
+      <img src="./assets/img/logos/logo_play.png" />
+    </div>
+    Integrador
+  </a>
+</div>
+<div class="sidebar-wrapper">
+  <div class="user">
+    <div>
+      <a data-toggle="collapse" href="#collapseUser" class="collapsed">
+        <span>
+          {{ nombreMostrar }}
+          <b class="caret"></b>
+        </span>
+      </a>
+      <div class="collapse" id="collapseUser">
+        <ul class="nav">
+          <li
+            class="nav-item"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <a class="nav-link" routerLink="users/change_password">
+              <i class="material-icons">password</i>
+              <p>Cambiar contraseña</p>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="isMobileMenu()">
+            <a
+              class="nav-link"
+              (click)="confirmCloseSesion()"
+              href="javascript:void(0)"
+            >
+              <i class="material-icons iconred">logout</i>
+              <p>
+                <span class="d-lg-none d-md-block">Cerrar Sesión</span>
+              </p>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav2" *ngIf="menuItems.length > 0; else loading">
+    <ul class="nav">
+      <li
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *ngFor="let menuItem of menuItems "
+        class="nav-item"
+      >
+        <a
+          *ngIf="menuItem.ruta == ''"
+          class="nav-link"
+          data-toggle="collapse"
+          href="#{{ menuItem.icono }}"
+        >
+          <i class="material-icons">{{ menuItem.icono }}</i>
+          <p>
+            {{ menuItem.titulo }}
+            <b class="caret"></b>
+          </p>
+        </a>
+
+        <a
+          *ngIf="menuItem.ruta != ''"
+          class="nav-link"
+          [routerLink]="[menuItem.ruta]"
+        >
+          <i class="material-icons">{{ menuItem.icono }}</i>
+          <p>{{ menuItem.titulo }}</p>
+        </a>
+
+        <div
+          class="collapse"
+          *ngIf="menuItem.submodulos"
+          id="{{ menuItem.icono }}"
+        >
+          <ul class="nav">
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              *ngFor="let subMenu of menuItem.submodulos"
+              class="nav-item"
+            >
+              <a class="nav-link" [routerLink]="[subMenu.ruta]">
+                <i class="material-icons">{{ subMenu.icono }}</i>
+                <p>{{ subMenu.titulo }}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Cargando...</p>
+</ng-template>

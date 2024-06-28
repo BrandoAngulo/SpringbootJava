@@ -1,0 +1,112 @@
+<app-spiner></app-spiner>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon card-header-success">
+            <div class="card-icon">
+              <i class="material-icons">bookmarks</i>
+            </div>
+            <h4 class="card-title">Creación de versiones</h4>
+          </div>
+
+          <div class="card-body">
+            <form [formGroup]="formularioVersiones" class="mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <legend>Nombre de versión</legend>
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Nombre de versión (tag)</mat-label>
+                    <input
+                      formControlName="nombre_version"
+                      matInput
+                      type="text"
+                      id="nombre_version"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarNombreVersion()">
+                    {{ nombreVersionError }}</small
+                  >
+                </div>
+
+                <div class="col-md-6">
+                  <legend>Versión de componentes</legend>
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Versión Java</mat-label>
+                    <input
+                      formControlName="java_version"
+                      matInput
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarJavaVersion()">
+                    {{ javaVersionError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Versión PHP</mat-label>
+                    <input formControlName="php_version" matInput type="text" />
+                  </mat-form-field>
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Versión Movil</mat-label>
+                    <input
+                      formControlName="movil_version"
+                      matInput
+                      type="text"
+                    />
+                  </mat-form-field>
+                </div>
+                <div class="col text-center">
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-success center mx-2"
+                    (click)="
+                      modoEdicion ? actualizarVersion() : registrarVersion()
+                    "
+                  >
+                    {{ modoEdicion ? "Actualizar" : "Guardar" }}
+                  </button>
+
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-default center mx-2"
+                    (click)="limpiarFormulario()"
+                  >
+                    Limpiar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">Listado de versiones</h4>
+          </div>
+          <div class="card-body">
+            <app-data-table
+              [tableData]="tablaVersiones"
+              [columnHeader]="encabezados"
+              (item)="cargarVersion($event)"
+              [editDto]="permiteEditar"
+              [estado]="manejaEstados"
+              (id)="cambiarEstado($event)"
+            >
+            </app-data-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

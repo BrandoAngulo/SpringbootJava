@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Procesos</title>
+    <style>
+        .highlight {
+            background-color: red;
+            color: white;
+        }
+        h1{
+            color: #050000;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+
+    </style>
+</head>
+<body>
+<h2>Buenos dias,</h2>
+<h3>El presente correo es para informar sobre los procesos de las bases de datos de Listo que no se ejecutaron a la media noche, por favor reportar a Orca.</h3>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Hora y Fecha Actual</th>
+        <th>Cliente</th>
+        <th>Procesos</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="procesos : ${procesos}"
+        th:if="${procesos.procesos() == 'Sin vales' or procesos.procesos() == 'Sin estadisticas' or procesos.procesos() == 'Sin porcentaje' or procesos.procesos() == 'Sin sobrantes' or procesos.procesos() == 'Sin creditos activos'}"
+        th:class="${procesos.procesos() == 'Sin vales'  or procesos.procesos() == 'Sin estadisticas' or procesos.procesos() == 'Sin porcentaje' or procesos.procesos() == 'Sin creditos activos' or procesos.procesos() == 'Sin sobrantes' ? 'highlight' : ''}">
+
+      <td th:text="${procesos.hora_fecha_actual()}">Hora y Fecha</td>
+        <td th:text="${procesos.cliente()}">Cliente</td>
+          <td th:text="${procesos.procesos()}">Procesos</td>
+      </tr>
+      </tbody>
+  </table>
+  </body>
+  </html>

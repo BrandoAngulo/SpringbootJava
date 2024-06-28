@@ -1,0 +1,298 @@
+<app-spiner></app-spiner>
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon card-header-success">
+            <div class="card-icon">
+              <i class="material-icons">people</i>
+            </div>
+            <h4 class="card-title">Creación / Actualización de clientes</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="formularioClientes" class="mt-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <legend>Datos personales</legend>
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Nombre administrador</mat-label>
+                    <input
+                      formControlName="nombre_admin"
+                      matInput
+                      type="text"
+                      id="nombre_admin"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarNombreAdmin()">
+                    {{ nombreAdminError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Celular</mat-label>
+
+                    <input formControlName="celular" matInput type="text" />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarCelular()">
+                    {{ celularError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Email</mat-label>
+
+                    <input formControlName="email" matInput type="text" />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarEmail()">
+                    {{ emailError }}</small
+                  >
+                </div>
+
+                <div class="col-md-6">
+                  <legend>Datos de facturación</legend>
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Documento del cliente</mat-label>
+                    <input formControlName="documento" matInput type="text" />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarDocumento()">
+                    {{ documentoError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Documento facturación</mat-label>
+
+                    <input
+                      formControlName="documento_facturacion"
+                      matInput
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small
+                    class="text-error"
+                    *ngIf="validarDocumentoFacturacion()"
+                  >
+                    {{ documentoFacturacionError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-select
+                      formControlName="tipo_factura"
+                      placeholder="Tipo factura *"
+                    >
+                      <mat-option value="">Selecione...</mat-option>
+                      <mat-option value="PU">PU</mat-option>
+                      <mat-option value="FV">FV</mat-option>
+                      <mat-option value="NA">NA</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarTipoFactura()">
+                    {{ tipoFacturaError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-select
+                      formControlName="tipo_moneda"
+                      placeholder="Tipo moneda *"
+                    >
+                      <mat-option value="">Selecione...</mat-option>
+                      <mat-option value="COP">COP</mat-option>
+                      <mat-option value="USD">USD</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarTipoMoneda()">
+                    {{ tipoMonedaError }}</small
+                  >
+
+                  <mat-form-field class="custom-input">
+                    <mat-label>Fecha de creación</mat-label>
+                    <input
+                      formControlName="fecha_creacion"
+                      matInput
+                      [matDatepicker]="picker"
+                      [max]="maxDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+
+                  <small class="text-error" *ngIf="validarFechaCreacion()">
+                    {{ fechaCreacionError }}</small
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="titulo">
+                  <legend>Datos de base de datos</legend>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <ng-select
+                    class="material"
+                    placeholder="Servidor *"
+                    [items]="servidores"
+                    bindLabel="nombre"
+                    formControlName="id_servidor"
+                  >
+                  </ng-select>
+                  <small class="text-error" *ngIf="validarServidor()">
+                    {{ servidorError }}</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="custom-input">
+                    <mat-select
+                      formControlName="tipo_cliente"
+                      placeholder="Tipo cliente *"
+                    >
+                      <mat-option [value]="0">Selecione...</mat-option>
+                      <mat-option [value]="1">Playtech</mat-option>
+                      <mat-option [value]="2">El exitoso</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarTipoCliente()">
+                    {{ tipoClienteError }}</small
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="custom-input">
+                    <input
+                      formControlName="nombre_java"
+                      matInput
+                      placeholder="Cliente *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarNombreJava()">
+                    {{ nombreJavaError }}</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="custom-input">
+                    <input
+                      formControlName="nombre_web"
+                      matInput
+                      placeholder="Web cliente *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarNombreWeb()">
+                    {{ nombreWebError }}</small
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="custom-input">
+                    <input
+                      formControlName="puerto_web"
+                      matInput
+                      placeholder="Puerto web *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarPuertoWeb()">
+                    {{ puertoWebError }}</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="custom-input">
+                    <input
+                      formControlName="puerto_movil"
+                      matInput
+                      placeholder="Puerto móvil *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarPuertomovil()">
+                    {{ puertoMovilError }}</small
+                  >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <ng-select
+                    class="sensual"
+                    placeholder="Versión *"
+                    [items]="versiones"
+                    bindLabel="version"
+                    formControlName="id_version"
+                  >
+                  </ng-select>
+
+                  <small class="text-error" *ngIf="validarVersion()">
+                    {{ versionError }}</small
+                  >
+                </div>
+                <div class="col-md-6">
+                  <ng-select
+                    placeholder="Zona horaria *"
+                    [items]="timeZones"
+                    [bindValue]="id"
+                    bindLabel="descripcion"
+                    formControlName="id_zona_horaria"
+                  >
+                  </ng-select>
+                  <small class="text-error" *ngIf="validarTimezone()">
+                    {{ timeZoneError }}</small
+                  >
+                </div>
+              </div>
+
+              <div class="col text-center">
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-success center"
+                  (click)="modoEdicion ? actualizarCliente() : registrar()"
+                >
+                  {{ modoEdicion ? "Actualizar" : "Guardar" }}
+                </button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-default center"
+                  (click)="limpiarFormulario()"
+                >
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">Listado de Clientes</h4>
+          </div>
+          <div class="card-body">
+            <app-data-table
+              [tableData]="tableData"
+              [columnHeader]="columnHeader"
+              [estado]="estado"
+              (id)="actualizarEstado($event)"
+              [editDto]="edit"
+              (item)="cargarCliente($event)"
+              [eliminar]="eliminar"
+              (idEliminar)="eliminarCliente($event)"
+            >
+            </app-data-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

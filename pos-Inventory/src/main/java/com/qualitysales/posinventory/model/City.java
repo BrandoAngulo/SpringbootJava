@@ -16,10 +16,10 @@ public class City {
     @Id
     @Column(name = "id_ciudad")
     private Integer id;
-    //@NotBlank(message = "el campo no puede estar vacio")
+    @NotBlank(message = "el campo no puede estar vacio")
     @Column(name = "codigo")
     private String code;
-    //@NotBlank(message = "el campo no puede estar vacio")
+    @NotBlank(message = "el campo no puede estar vacio")
     @Column(name = "nombre")
     private String name;
 }

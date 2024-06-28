@@ -1,0 +1,15 @@
+.form-field-custom{
+    width: 40vw;
+}
+
+.acciones{
+    height: 56px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.container-botones{
+    display: flex;
+    justify-content: center;
+}

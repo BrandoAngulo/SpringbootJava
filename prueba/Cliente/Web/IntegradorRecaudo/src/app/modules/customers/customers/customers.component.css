@@ -1,0 +1,22 @@
+
+.ng-select, .ng-select div, ::ng-deep.ng-select input, .ng-select span {
+    margin-top: -10px !important;
+    font-weight: 400 !important;
+}
+
+.custom-input{
+    width: 100%;
+    font-size: 15px;
+}
+
+.titulo{
+    margin: 15px;
+}
+/* 
+::ng-deep.ng-select-container {
+    border-bottom: 1px solid #53595f !important;
+ } */
+
+ /* ::ng-deep.ng-select{
+    border: solid red;
+ } */

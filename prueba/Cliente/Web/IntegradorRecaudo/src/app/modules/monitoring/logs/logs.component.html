@@ -1,0 +1,122 @@
+<app-spiner></app-spiner>
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-icon card-header-success">
+            <div class="card-icon">
+              <i class="material-icons">description</i>
+            </div>
+            <h4 class="card-title">Consulta de logs</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="formularioLogs">
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field class="form-field-custom">
+                    <mat-label>Clientes</mat-label>
+                    <mat-select
+                      formControlName="cliente"
+                      name="nombre"
+                      #selectTipoUsuarioFocus
+                    >
+                      <mat-option
+                        *ngFor="let tipo of clientes"
+                        value="{{ tipo }}"
+                      >
+                        {{ tipo }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="text-center">
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-success center"
+                  >
+                    Buscar
+                  </button>
+                  <button
+                    mat-raised-button
+                    type="button"
+                    class="btn btn-default center"
+                    (click)="limpiarFormulario()"
+                  >
+                    Limpiar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">Listado de Logs</h4>
+          </div>
+          <div class="card-body">
+            <div class="col-3 pull-right">
+              <mat-form-field>
+                <input
+                  matInput
+                  (keyup)="filtrarBusqueda($event.target.value)"
+                  placeholder="Buscar"
+                />
+              </mat-form-field>
+            </div>
+            <table mat-table [dataSource]="dataSource">
+              <!-- Columna Nombre del archivo -->
+              <ng-container matColumnDef="nombreArchivo">
+                <th class="text-success" mat-header-cell *matHeaderCellDef>
+                  Nombre del archivo
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element }}</td>
+              </ng-container>
+
+              <!-- Columna Acciones  -->
+              <ng-container matColumnDef="acciones">
+                <th
+                  class="text-success acciones"
+                  mat-header-cell
+                  *matHeaderCellDef
+                >
+                  Acciones
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="container-botones">
+                    <button
+                      mat-mini-fab
+                      aria-label="Editar"
+                      type="button"
+                      class="bg-info"
+                      (click)="descargarLog(element)"
+                    >
+                      <i class="material-icons">download</i>
+                    </button>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <mat-paginator
+              [pageSizeOptions]="[5, 10, 20]"
+              showFirstLastButtons
+              aria-label="Select page of periodic elements"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

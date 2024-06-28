@@ -23,7 +23,7 @@ public class Client {
     private String lastName;
     private String docTipe;
     private String document;
-    @ManyToOne()
+    @ManyToOne
     private City city;
     private String residence;
     private String cellPhone;

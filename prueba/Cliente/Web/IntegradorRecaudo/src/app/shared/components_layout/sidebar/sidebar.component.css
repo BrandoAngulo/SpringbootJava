@@ -1,0 +1,39 @@
+.material-icons.iconred {
+    color: red;
+}
+
+.visible {
+    border: red;
+    display: none;
+}
+
+a[data-toggle="collapse"][aria-expanded="true"] .caret, .dropdown.open .caret, .dropup.open .caret, .btn-group.bootstrap-select.open .caret {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+
+.caret, .bootstrap-tagsinput .tag, .bootstrap-tagsinput [data-role="remove"] {
+    -webkit-transition: all 150ms ease-in;
+    -moz-transition: all 150ms ease-in;
+    -o-transition: all 150ms ease-in;
+    -ms-transition: all 150ms ease-in;
+    transition: all 150ms ease-in;
+}
+
+.sidebar-mini {
+    text-transform: uppercase;
+    width: 30px;
+    text-align: center;
+    letter-spacing: 1px;
+    position: absolute;
+    display: inherit;
+}
+
+.sidebar-normal {
+    margin: 0;
+    margin-left: 45px;
+    opacity: 1;
+    white-space: nowrap;
+}

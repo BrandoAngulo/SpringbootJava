@@ -1,0 +1,84 @@
+<app-spiner></app-spiner>
+
+<div class="main-content">
+  <div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+      <div class="col-md-4">
+        <div class="card card-profile">
+          <div class="card-avatar">
+            <a href="javascript:void(0)">
+              <img class="img" src="./assets/img/logos/logo_play.png" />
+            </a>
+          </div>
+          <div class="card-body">
+            <h2 class="card-title">Autenticación</h2>
+            <form [formGroup]="form">
+              <div class="row text-center input-form">
+                <div>
+                  <mat-form-field class="campo" >
+                    <mat-label>
+                      Correo Electronico
+                    </mat-label>
+                    <input
+                      matInput
+                      [class.is-invalid]="validarUserCampo()"
+                      [class.is-valid]="validarUserCampoValido()"
+                      formControlName="correo"
+                      type="text"
+                      autocomplete="off"
+                    />
+                  </mat-form-field>
+                  <div>
+                    <small class="text-error" *ngIf="validarUser()">
+                      {{ userError }}</small
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="row text-center input-form">
+                <div >
+                  <mat-form-field class="campo">
+                    <mat-label>
+                      Contraseña
+                    </mat-label>
+                    <input
+                      matInput
+                      [class.is-invalid]="validarPassCampo()"
+                      [class.is-valid]="validarPassCampoValido()"
+                      formControlName="pass"
+                      [type]="passVisible ? 'password' : 'text'"
+                      autocomplete="off"
+                      #inputPass
+                    />
+                    <mat-icon matSuffix (click)="passVisibleToogle()">{{
+                      passVisible ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                  </mat-form-field>
+                </div>
+                <div>
+                  <small class="text-error" *ngIf="validarPass()">
+                    {{ passError }}</small
+                  >
+                </div>
+              </div>
+
+              <div class="row justify-content-around text-center">
+                <div >
+                  <button
+                    mat-raised-button
+                    (click)="login()"
+                    class="btn btn-success btn-round mat-raised-button"
+                    type="button"
+                  >
+                    Iniciar sesión
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

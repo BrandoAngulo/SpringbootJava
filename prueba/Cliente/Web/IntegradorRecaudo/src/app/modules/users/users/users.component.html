@@ -1,0 +1,195 @@
+<app-spiner></app-spiner>
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">Usuarios</h4>
+            <p class="card-category">Creación / Actualización de usuarios</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="form">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="form-field-custom">
+                    <mat-label>Roles</mat-label>
+                    <mat-select
+                      [class.is-invalid]="validarTipoUsuarioCampo()"
+                      [class.is-valid]="validarTipoUsuarioCampoValido()"
+                      formControlName="roles"
+                      name="nombre"
+                      #selectTipoUsuarioFocus
+                      multiple
+                    >
+                      <mat-option
+                        *ngFor="let tipo of rolesUsuario"
+                        value="{{ tipo }}"
+                      >
+                        {{ tipo }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <small class="text-error" *ngIf="validarTipoUsuario()">
+                    {{ tipoUsuarioError }}</small
+                  >
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field  class="form-field-custom">
+                    <input
+                      [class.is-invalid]="validarDocumentoCampo()"
+                      [class.is-valid]="validarDocumentoCampoValido()"
+                      formControlName="documento"
+                      matInput
+                      placeholder="Documento *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarDocumento()">
+                    {{ documentoError }}</small
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field  class="form-field-custom">
+                    <input
+                      [class.is-invalid]="validarNombresCampo()"
+                      [class.is-valid]="validarNombresCampoValido()"
+                      formControlName="nombres"
+                      matInput
+                      placeholder="Nombres *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarNombres()">
+                    {{ nombresError }}</small
+                  >
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field  class="form-field-custom">
+                    <input
+                      [class.is-invalid]="validarApellidosCampo()"
+                      [class.is-valid]="validarApellidosCampoValido()"
+                      formControlName="apellidos"
+                      matInput
+                      placeholder="Apellidos *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarApellidos()">
+                    {{ apellidosError }}</small
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field  class="form-field-custom">
+                    <input
+                      [class.is-invalid]="validarEmailCampo()"
+                      [class.is-valid]="validarEmailCampoValido()"
+                      formControlName="correo"
+                      matInput
+                      placeholder="E-mail *"
+                      type="email"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarEmail()">
+                    {{ emailError }}</small
+                  >
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field  class="form-field-custom">
+                    <input
+                      [class.is-invalid]="validarusuarioCampo()"
+                      [class.is-valid]="validarusuarioCampoValido()"
+                      formControlName="nombre_usuario"
+                      matInput
+                      placeholder="Usuario *"
+                      type="text"
+                    />
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarusuario()">
+                    {{ usuarioError }}</small
+                  >
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field  class="form-field-custom">
+                    <input
+                      [class.is-invalid]="validarContrasenaCampo()"
+                      [class.is-valid]="validarContrasenaCampoValido()"
+                      formControlName="contrasena"
+                      matInput
+                      placeholder="Contraseña *"
+                      [type]="passVisible ? 'password' : 'text'"
+                    />
+                    <mat-icon matSuffix (click)="passVisibleToogle()">{{
+                      passVisible ? "visibility_off" : "visibility"
+                    }}</mat-icon>
+                  </mat-form-field>
+                  <small class="text-error" *ngIf="validarPassword()">
+                    {{ passwordError }}</small
+                  >
+                  <small class="text-error" *ngIf="passwordSeguridadError">
+                    <h6>La contraseña debe seguir las siguientes políticas:</h6>
+                    <ul>
+                      <li>Mínimo 8 caracteres.</li>
+                      <li>Máximo 30 caracteres.</li>
+                      <li>Al menos una mayúscula.</li>
+                      <li>Al menos una minúscula.</li>
+                      <li>Al menos un número.</li>
+                      <li>No espacios en blanco.</li>
+                    </ul>
+                  </small>
+                </div>
+              </div>
+              <div class="col text-center">
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-success center"
+                  (click)="modoEdicion ? actualizarUsuario() : registrar()"
+                >
+                  {{ modoEdicion ? "Actualizar" : "Guardar" }}
+                </button>
+                <button
+                  mat-raised-button
+                  type="button"
+                  class="btn btn-default center"
+                  (click)="limpiarFormulario()"
+                >
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">Listado de Usuarios</h4>
+          </div>
+          <div class="card-body">
+            <app-data-table
+              [tableData]="tableData"
+              [columnHeader]="columnHeader"
+              [estado]="estado"
+              (id)="actualizarEstado($event)"
+              [editDto]="edit"
+              (item)="cargarUsuario($event)"
+            >
+            </app-data-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
