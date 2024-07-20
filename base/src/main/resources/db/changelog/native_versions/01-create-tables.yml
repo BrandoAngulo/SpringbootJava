@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: bangulo
+      changes:
+        - tagDatabase:
+            tag: roles-ct
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: descripcion
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+                    unique: true
+      rollback:
+        - dropTable:
+            tableName: roles
+
+  - changeSet:
+      id: 2
+      author: bangulo
+      changes:
+        - tagDatabase:
+              tag: rol-insert
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: descripcion
+                  value: ADMIN
+      rollback:
+        - delete:
+            tableName: roles
+            where: descripcion = 'ADMIN'
+
+  - changeSet:
+      id: 3
+      author: bangulo
+      changes:
+        - tagDatabase:
+            tag: usuario-ct
+        - createTable:
+            tableName: usuario
+            columns:
+              - column:
+                  name: id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nombre
+                  type: VARCHAR(100)
+              - column:
+                  name: role_id
+                  type: INT
+                  constraints:
+                    foreignKeyName: fk_role
+                    references: roles(id)
+      rollback:
+        - dropTable:
+            tableName: usuario
+
+  - changeSet:
+      id: 4
+      author: bangulo
+      changes:
+        - tagDatabase:
+            tag: usaurio-insert
+        - insert:
+            tableName: usuario
+            columns:
+              - column:
+                  name: nombre
+                  value: s1
+              - column:
+                  name: role_id
+                  value: 1
+      rollback:
+        - delete:
+            tableName: usuario
+            where: nombre = 's1' AND role_id = 1
