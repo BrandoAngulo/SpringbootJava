@@ -1,22 +1,55 @@
--- 1. Crear la tabla roles si no existe
-CREATE TABLE IF NOT EXISTS roles
+-- ChangeSet 1
+-- Tag Database
+-- Tag: roles-ct
+
+-- Create Table roles
+CREATE TABLE roles
 (
     id          SERIAL PRIMARY KEY,
     descripcion VARCHAR(50) NOT NULL UNIQUE
 );
 
--- 2. Insertar el rol 'ADMIN' si no existe
-INSERT INTO roles(descripcion) VALUES ('ADMIN')
-ON CONFLICT (descripcion) DO NOTHING;
+-- ChangeSet 2
+-- Tag Database
+-- Tag: rol-insert
 
--- 3. Crear la tabla usuario si no existe
-CREATE TABLE IF NOT EXISTS usuario
+-- Insert into roles
+INSERT INTO roles (descripcion)
+VALUES ('ADMIN');
+
+-- ChangeSet 3
+-- Tag Database
+-- Tag: usuario-ct
+
+-- Create Table usuario
+CREATE TABLE usuario
 (
     id      SERIAL PRIMARY KEY,
-    nombre  VARCHAR(255),
-    role_id INT REFERENCES roles (id)
+    nombre  VARCHAR(100),
+    role_id INT,
+    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles (id)
 );
+-- ChangeSet 4
+-- Tag Database
+-- Tag: usuario-insert
 
--- 4. Insertar usuario si no existe
-INSERT INTO usuario(nombre, role_id) VALUES ('s1', 1)
-ON CONFLICT (id) DO NOTHING;
+-- Insert into usuario
+INSERT INTO usuario (nombre, role_id)
+VALUES ('prueba', 1);
+
+-- Rollback for ChangeSet 1
+-- TRUNCATE TABLE roles RESTART IDENTITY;
+DROP TABLE roles CASCADE;
+
+-- Rollback for ChangeSet 2
+-- DELETE FROM roles WHERE descripcion = 'ADMIN';
+
+-- Rollback for ChangeSet 3
+-- TRUNCATE TABLE usuario RESTART IDENTITY;
+-- DROP TABLE usuario CASCADE;
+
+-- Rollback for ChangeSet 4
+DELETE
+FROM usuario
+WHERE nombre = 'prueba'
+  AND role_id = 1;

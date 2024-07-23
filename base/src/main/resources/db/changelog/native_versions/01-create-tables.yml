@@ -20,7 +20,9 @@ databaseChangeLog:
                     nullable: false
                     unique: true
       rollback:
+        - sql: TRUNCATE TABLE roles RESTART IDENTITY;
         - dropTable:
+            cascadeConstraints: true
             tableName: roles
 
   - changeSet:
@@ -64,7 +66,9 @@ databaseChangeLog:
                     foreignKeyName: fk_role
                     references: roles(id)
       rollback:
+        - sql: TRUNCATE TABLE usuario RESTART IDENTITY;
         - dropTable:
+            cascadeConstraints: true
             tableName: usuario
 
   - changeSet:
@@ -78,7 +82,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: nombre
-                  value: s1
+                  value: prueba
               - column:
                   name: role_id
                   value: 1

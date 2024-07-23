@@ -1,0 +1,36 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="Bangulo" context="roles_t">
+        <sql>
+            CREATE TABLE roles
+            (
+                id          SERIAL PRIMARY KEY,
+                descripcion VARCHAR(50) NOT NULL UNIQUE
+            );
+            INSERT INTO roles (descripcion) VALUES ('ADMIN');
+        </sql>
+        <rollback>
+            <sql>DROP TABLE roles;</sql>
+        </rollback>
+    </changeSet>
+    <changeSet id="2" author="Bangulo" context="usuario_t">
+        <sql>
+            CREATE TABLE usuario
+            (
+                id      SERIAL PRIMARY KEY,
+                nombre  VARCHAR(100),
+                role_id INT,
+                CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles (id)
+            );
+            INSERT INTO usuario (nombre, role_id) VALUES ('prueba', 1);
+        </sql>
+        <rollback>
+            <sql> DROP TABLE usuario</sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

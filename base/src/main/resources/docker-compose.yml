@@ -55,5 +55,21 @@ services:
     environment:
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'postgres'
+
+  db_postgres_13:
+    container_name: postgres13
+    image: postgres:13.0-alpine
+    volumes:
+      - /var/lib/postgresql/data
+    restart: always
+    ports:
+      - '5437:5432'
+    expose:
+      - '5432'
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
 volumes:
   my-db:
+  my-db_postgres13:
+
